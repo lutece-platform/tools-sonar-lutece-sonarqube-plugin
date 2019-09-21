@@ -33,25 +33,52 @@
  */
 package fr.paris.lutece.tools.sonarqube.checks;
 
-import org.junit.Test;
-import org.sonar.java.checks.verifier.JavaCheckVerifier;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.plugins.html.analyzers.ComplexityVisitor;
+import org.sonar.plugins.html.analyzers.PageCountLines;
+import org.sonar.plugins.html.api.HtmlConstants;
+import org.sonar.plugins.html.lex.PageLexer;
+import org.sonar.plugins.html.visitor.DefaultNodeVisitor;
+import org.sonar.plugins.html.visitor.HtmlAstScanner;
+import org.sonar.plugins.html.visitor.HtmlSourceCode;
 
-/**
- * DeprecatedMacroCheckTest
- */
-public class DeprecatedMacroCheckTest
-{
+public class TestHelper {
 
-    @Test
-    public void detected()
-    {
+  private TestHelper() {
+  }
 
-        // Use an instance of the check under test to raise the issue.
-        DeprecatedMacroRule check = new DeprecatedMacroRule();
-
-        // Verifies that the check will raise the adequate issues with the expected message.
-        // In the test file, lines which should raise an issue have been commented out
-        // by using the following syntax: "// Noncompliant {{EXPECTED_MESSAGE}}"
-        JavaCheckVerifier.verify( "src/test/files/DeprecatedMacro.html", check );
+  public static HtmlSourceCode scan(File file, DefaultNodeVisitor visitor) {
+    FileReader fileReader;
+    try {
+      fileReader = new FileReader(file);
+    } catch (FileNotFoundException e) {
+      throw new IllegalStateException(e);
     }
+
+    HtmlSourceCode result = new HtmlSourceCode(
+      new TestInputFileBuilder("key", file.getPath())
+        .setLanguage(HtmlConstants.LANGUAGE_KEY)
+        .setType(InputFile.Type.MAIN)
+        .setModuleBaseDir(new File(".").toPath())
+        .setCharset(StandardCharsets.UTF_8)
+        .build()
+    );
+
+    HtmlAstScanner walker = new HtmlAstScanner(Arrays.asList(new PageCountLines(), new ComplexityVisitor()));
+    walker.addVisitor(visitor);
+    walker.scan(
+      new PageLexer().parse(fileReader),
+      result
+    );
+
+    return result;
+  }
+
 }
+

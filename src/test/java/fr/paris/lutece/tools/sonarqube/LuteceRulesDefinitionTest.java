@@ -33,16 +33,13 @@
  */
 package fr.paris.lutece.tools.sonarqube;
 
-import org.junit.Test;
-import org.sonar.api.rules.RuleType;
-import org.sonar.api.server.debt.DebtRemediationFunction.Type;
-import org.sonar.api.server.rule.RuleParamType;
-import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.server.rule.RulesDefinition.Param;
-import org.sonar.api.server.rule.RulesDefinition.Repository;
-import org.sonar.api.server.rule.RulesDefinition.Rule;
-
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import static org.fest.assertions.Assertions.assertThat;
+import org.junit.Test;
+import org.sonar.api.server.rule.RulesDefinition;
+
 
 public class LuteceRulesDefinitionTest
 {
@@ -52,45 +49,36 @@ public class LuteceRulesDefinitionTest
     {
         LuteceRulesDefinition rulesDefinition = new LuteceRulesDefinition();
         RulesDefinition.Context context = new RulesDefinition.Context();
-        rulesDefinition.define( context );
-        RulesDefinition.Repository repository = context.repository( LuteceRulesDefinition.REPOSITORY_KEY );
+        rulesDefinition.define(context);
+        RulesDefinition.Repository repository = context.repository(LuteceRulesDefinition.REPOSITORY_KEY);
 
-        assertThat( repository.name() ).isEqualTo( "Lutece Repository" );
-        assertThat( repository.language() ).isEqualTo( "java" );
-        assertThat( repository.rules() ).hasSize( RulesList.getChecks().size() );
+        assertThat(repository.name()).isEqualTo("Lutece Repository");
+        assertThat(repository.language()).isEqualTo("web");
 
-        assertRuleProperties( repository );
-        assertParameterProperties( repository );
-        assertAllRuleParametersHaveDescription( repository );
-    }
+        assertThat(repository.rules()).hasSize(CheckClasses.getCheckClasses().size());
 
-    private void assertParameterProperties( Repository repository )
-    {
-        // TooManyLinesInFunctionCheck
-        Param max = repository.rule( "DeprecatedMacro" ).param( "name" );
-        assertThat( max ).isNotNull();
-        assertThat( max.defaultValue() ).isEqualTo( "Inject" );
-        assertThat( max.description() ).isEqualTo( "Name of the annotation to avoid, without the prefix @, for instance 'Override'" );
-        assertThat( max.type() ).isEqualTo( RuleParamType.STRING );
-    }
+        RulesDefinition.Rule alertUseRule = repository.rule("MacroRequiredCheck");
+        assertThat(alertUseRule).isNotNull();
+//        assertThat(alertUseRule.name()).isEqualTo("Track uses of disallowed attributes");
 
-    private void assertRuleProperties( Repository repository )
-    {
-        Rule rule = repository.rule( "DeprecatedMacro" );
-        assertThat( rule ).isNotNull();
-        assertThat( rule.name() ).isEqualTo( "Title of AvoidAnnotation" );
-        assertThat( rule.debtRemediationFunction().type() ).isEqualTo( Type.CONSTANT_ISSUE );
-        assertThat( rule.type() ).isEqualTo( RuleType.CODE_SMELL );
-    }
+        Set<String> templateRules = repository.rules().stream()
+                .filter(RulesDefinition.Rule::template)
+                .map(RulesDefinition.Rule::key)
+                .collect(Collectors.toSet());
+        assertThat(templateRules).hasSize(1);
+        assertThat(templateRules).containsOnly("MacroRequiredCheck");
 
-    private void assertAllRuleParametersHaveDescription( Repository repository )
-    {
-        for( Rule rule : repository.rules() )
+        for (RulesDefinition.Rule rule : repository.rules())
         {
-            for( Param param : rule.params() )
+            for (RulesDefinition.Param param : rule.params())
             {
-                assertThat( param.description() ).as( "description for " + param.key() ).isNotEmpty();
+                assertThat(param.description()).as("description for " + param.key()).isNotEmpty();
             }
         }
+
+        List<RulesDefinition.Rule> activated = repository.rules().stream().filter(RulesDefinition.Rule::activatedByDefault).collect(Collectors.toList());
+        assertThat(activated).isNotEmpty();
+        assertThat(activated.size()).isLessThanOrEqualTo(CheckClasses.getCheckClasses().size());
     }
+
 }

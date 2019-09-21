@@ -1,5 +1,3 @@
-package fr.paris.lutece.tools.sonarqube;
-
 /*
  * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
@@ -34,39 +32,26 @@ package fr.paris.lutece.tools.sonarqube;
  * License 1.0
  */
 
-import fr.paris.lutece.tools.sonarqube.checks.DeprecatedMacroRule;
+package fr.paris.lutece.tools.sonarqube;
+
 import fr.paris.lutece.tools.sonarqube.checks.MacroRequiredCheck;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import org.sonar.plugins.java.api.JavaCheck;
 
-public final class RulesList
-{
+public final class CheckClasses {
 
-    private RulesList()
-    {
-    }
+  private static final List<Class> CLASSES = Arrays.asList(MacroRequiredCheck.class
+  );
 
-    public static List<Class<? extends JavaCheck>> getChecks()
-    {
-        List<Class<? extends JavaCheck>> checks = new ArrayList<>();
-        checks.addAll( getJavaChecks() );
-        checks.addAll( getJavaTestChecks() );
-        return Collections.unmodifiableList( checks );
-    }
+  private CheckClasses() {
+  }
 
-    public static List<Class<? extends JavaCheck>> getJavaChecks()
-    {
-        return Collections.unmodifiableList( Arrays.asList(
-//                DeprecatedMacroRule.class,
-//                MacroRequiredRule.class
-        ) );
-    }
+  /**
+   * Gets the list of XML checks.
+   */
+  @SuppressWarnings("rawtypes")
+  public static List<Class> getCheckClasses() {
+    return CLASSES;
+  }
 
-    public static List<Class<? extends JavaCheck>> getJavaTestChecks()
-    {
-        return Collections.emptyList();
-    }
 }

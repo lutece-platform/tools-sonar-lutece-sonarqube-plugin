@@ -34,21 +34,13 @@
 package fr.paris.lutece.tools.sonarqube;
 
 import com.google.gson.Gson;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.Locale;
+import java.util.Collections;
+import java.util.Set;
 import java.util.stream.Collectors;
-import javax.annotation.Nullable;
-import org.apache.commons.lang.StringUtils;
-import org.sonar.api.rule.RuleStatus;
-import org.sonar.api.rules.RuleType;
-import org.sonar.api.server.debt.DebtRemediationFunction;
+import java.util.stream.Stream;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.api.server.rule.RulesDefinitionAnnotationLoader;
-import org.sonar.api.utils.AnnotationUtils;
-import org.sonar.plugins.java.api.JavaCheck;
-import org.sonar.squidbridge.annotations.RuleTemplate;
+import org.sonar.plugins.html.api.HtmlConstants;
+import org.sonarsource.analyzer.commons.RuleMetadataLoader;
 
 /**
  * Declare rule metadata in server repository of rules. That allows to list the
@@ -57,18 +49,48 @@ import org.sonar.squidbridge.annotations.RuleTemplate;
 public class LuteceRulesDefinition implements RulesDefinition
 {
     // don't change that because the path is hard coded in CheckVerifier
-    private static final String RESOURCE_BASE_PATH = "/org/sonar/l10n/java/rules/squid";
+    //private static final String RESOURCE_BASE_PATH = "/org/sonar/l10n/java/rules/squid";
 
     public static final String REPOSITORY_KEY = "lutece";
+    private static final String REPOSITORY_NAME = "Lutece Repository";
 
     private final Gson gson = new Gson();
 
+    private static final Set<String> TEMPLATE_RULE_KEYS = Collections.unmodifiableSet(Stream.of(
+            "MacroRequiredCheck").collect(Collectors.toSet()));
+
+    public static final String RESOURCE_BASE_PATH = "fr/paris/lutece/web/rules/Web";
+    private static final String JSON_PROFILE = RESOURCE_BASE_PATH + "/Lutece_way_profile.json" ;
+
+    @Override
+    public void define(Context context)
+    {
+        NewRepository repository = context
+                .createRepository(REPOSITORY_KEY, HtmlConstants.LANGUAGE_KEY)
+                .setName(REPOSITORY_NAME);
+
+        RuleMetadataLoader ruleMetadataLoader = new RuleMetadataLoader(RESOURCE_BASE_PATH, JSON_PROFILE );
+
+        ruleMetadataLoader.addRulesByAnnotatedClass(repository, CheckClasses.getCheckClasses());
+
+        for (NewRule rule : repository.rules())
+        {
+            if (TEMPLATE_RULE_KEYS.contains(rule.key()))
+            {
+                rule.setTemplate(true);
+            }
+        }
+
+        repository.done();
+    }
+
+    /*
     @Override
     public void define( Context context )
     {
         NewRepository repository = context
                 .createRepository( REPOSITORY_KEY, "lutece" )
-                .setName( "Lutece Repository" );
+                .setName( REPOSITORY_NAME );
 
         for( Class<? extends JavaCheck> check : RulesList.getChecks() )
         {
@@ -183,5 +205,5 @@ public class LuteceRulesDefinition implements RulesDefinition
             return drf.linearWithOffset( linearFactor.replace( "mn", "min" ), linearOffset.replace( "mn", "min" ) );
         }
     }
-
+     */
 }

@@ -11,13 +11,19 @@
     <name>SonarQube Lutece Rules</name>
     <description>Lutece Rules for SonarQube</description>
     <inceptionYear>2019</inceptionYear>
-
+    <licenses>
+        <license>
+            <name>>BSD</name>  
+        </license>         
+    </licenses>
+    
     <properties>
         <sslr.version>1.21</sslr.version>
         <gson.version>2.6.2</gson.version>
-
         <sonar.version>7.7</sonar.version>
         <sonarjava.version>5.12.1.17771</sonarjava.version>
+        <sonarhtml.version>3.2.0.2082</sonarhtml.version>
+        <analyzerCommons.version>1.10.3.509</analyzerCommons.version>
     </properties>
 
     <dependencies>
@@ -34,6 +40,18 @@
             <type>sonar-plugin</type>
             <version>${sonarjava.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonarsource.html</groupId>
+            <artifactId>sonar-html-plugin</artifactId>
+            <version>${sonarhtml.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.sonarsource.analyzer-commons</groupId>
+            <artifactId>sonar-analyzer-commons</artifactId>
+            <version>${analyzerCommons.version}</version>
         </dependency>
 
         <dependency>
@@ -131,8 +149,14 @@
                 <extensions>true</extensions>
                 <configuration>
                     <pluginKey>lutece-custom</pluginKey>
-                    <pluginName>Lutece Rules</pluginName>
+                    <pluginName>Lutece</pluginName>
                     <pluginClass>fr.paris.lutece.tools.sonarqube.LuteceRulesPlugin</pluginClass>
+                    <pluginDescription>Lutece rules</pluginDescription>
+                    <pluginOrganizationName>Lutece Project</pluginOrganizationName>
+                    <pluginOrganizationUrl>http://lutece-platform.github.io</pluginOrganizationUrl>
+                    <pluginUrl>https://github.com/lutece-platform/tools-sonar-lutece-sonarqube-plugin</pluginUrl>
+                    <pluginSourcesUrl>https://github.com/lutece-platform/tools-sonar-lutece-sonarqube-plugin</pluginSourcesUrl>
+                    <pluginIssueTrackerUrl>http://dev.lutece.paris.fr/jira/projects/SONAR</pluginIssueTrackerUrl>
                     <sonarLintSupported>true</sonarLintSupported>
                     <sonarQubeMinVersion>6.7</sonarQubeMinVersion>
                 </configuration>

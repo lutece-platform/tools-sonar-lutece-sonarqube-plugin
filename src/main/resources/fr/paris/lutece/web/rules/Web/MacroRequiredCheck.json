@@ -1,0 +1,16 @@
+{
+  "title": "HTML tag should be replaced by a macro",
+  "type": "CODE_SMELL",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "unused"
+  ],
+  "defaultSeverity": "Major",
+  "ruleSpecification": "RSPEC-125",
+  "sqKey": "MacroRequiredCheck",
+  "scope": "All"
+}
