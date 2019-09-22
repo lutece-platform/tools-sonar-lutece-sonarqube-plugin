@@ -33,60 +33,62 @@
  */
 package fr.paris.lutece.tools.sonarqube.checks;
 
-import java.util.List;
-import javax.annotation.Nullable;
-import org.apache.commons.lang.StringUtils;
+import org.sonar.check.Rule;
+import org.sonar.plugins.html.checks.AbstractPageCheck;
+import org.sonar.plugins.html.node.TagNode;
+import org.sonar.plugins.java.api.JavaFileScanner;
+import org.sonar.plugins.java.api.JavaFileScannerContext;
+
 import org.sonar.plugins.java.api.tree.BaseTreeVisitor;
-import org.sonar.plugins.java.api.tree.Tree;
+import org.sonar.plugins.java.api.tree.MethodTree;
 
-public class PrinterVisitor extends BaseTreeVisitor
+/**
+ * DeprecatedMacroCheck
+ */
+@Rule(key = "DeprecatedMacroCheck")
+public class DeprecatedMacroCheck extends AbstractPageCheck
 {
-
-    private static final int INDENT_SPACES = 2;
-
-    private final StringBuilder sb;
-    private int indentLevel;
-
-    public PrinterVisitor()
+    private static final String[] DEPRECATED_MACROS = {
+        "comboSortedWithParams",
+        "comboWithParams",
+        "comboSiteWithParams",
+        "comboSite",
+        "combo",
+        "comboSorted",
+        "fieldTextArea",
+        "fieldInputCombo",
+        "fieldInputRadioBoxInline",
+        "fieldInputCheckBoxInline",
+        "fieldInputRadioBox",
+        "fieldInputCheckBox",
+        "fieldInputCalendar",
+        "fieldStaticText",
+        "fieldInputWrapper",
+        "fieldInputPassword",
+        "fieldInputText",
+        "filterPanel",
+        "dataTable ",
+        "boxSized",
+        "rowBox",
+        "rowBoxHeader",
+        "row_class",
+        "coloredBg",
+        "unstyledList",
+        "dropdownList ",
+    };
+    
+    
+      @Override
+    public void startElement(TagNode element)
     {
-        sb = new StringBuilder();
-        indentLevel = 0;
-    }
-
-    public static String print( Tree tree )
-    {
-        PrinterVisitor pv = new PrinterVisitor();
-        pv.scan( tree );
-        return pv.sb.toString();
-    }
-
-    private StringBuilder indent()
-    {
-        return sb.append( StringUtils.leftPad( "", INDENT_SPACES * indentLevel ) );
-    }
-
-    @Override
-    protected void scan( List<? extends Tree> trees )
-    {
-        if( !trees.isEmpty() )
+        for (String strMacroName : DEPRECATED_MACROS)
         {
-            sb.deleteCharAt( sb.length() - 1 );
-            sb.append( " : [\n" );
-            super.scan( trees );
-            indent().append( "]\n" );
+            if( element.getNodeName().contains( "@" + strMacroName + " "))
+            {
+                createViolation(element, "The Freemarker macro " + strMacroName + " is deprecated and will be removed in Lutece v7" );
+            }
         }
-    }
 
-    @Override
-    protected void scan( @Nullable Tree tree )
-    {
-        if( tree != null && tree.getClass().getInterfaces() != null && tree.getClass().getInterfaces().length > 0 )
-        {
-            String nodeName = tree.getClass().getInterfaces()[0].getSimpleName();
-            indent().append( nodeName ).append( "\n" );
-        }
-        indentLevel++;
-        super.scan( tree );
-        indentLevel--;
     }
+      
 }

@@ -1,0 +1,16 @@
+{
+  "title": "Deprecated Freemarker macro should be removed",
+  "type": "BUG",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "lutece","macros", "v7"
+  ],
+  "defaultSeverity": "Major",
+  "ruleSpecification": "RSPEC-125",
+  "sqKey": "DeprecatedMacroCheck",
+  "scope": "Main"
+}

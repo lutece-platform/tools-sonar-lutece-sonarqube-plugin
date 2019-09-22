@@ -65,8 +65,7 @@ public class LuteceRulesDefinitionTest
                 .filter(RulesDefinition.Rule::template)
                 .map(RulesDefinition.Rule::key)
                 .collect(Collectors.toSet());
-        assertThat(templateRules).hasSize(1);
-        assertThat(templateRules).containsOnly("MacroRequiredCheck");
+        assertThat(templateRules).hasSize(0);
 
         for (RulesDefinition.Rule rule : repository.rules())
         {

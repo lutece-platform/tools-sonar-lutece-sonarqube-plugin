@@ -57,9 +57,9 @@ public class LuteceRulesDefinition implements RulesDefinition
     private final Gson gson = new Gson();
 
     private static final Set<String> TEMPLATE_RULE_KEYS = Collections.unmodifiableSet(Stream.of(
-            "MacroRequiredCheck").collect(Collectors.toSet()));
+            "TemplateRuleCheck").collect(Collectors.toSet()));
 
-    public static final String RESOURCE_BASE_PATH = "fr/paris/lutece/web/rules/Web";
+    public static final String RESOURCE_BASE_PATH = "org/sonar/l10n/web/rules/Web";
     private static final String JSON_PROFILE = RESOURCE_BASE_PATH + "/Lutece_way_profile.json" ;
 
     @Override

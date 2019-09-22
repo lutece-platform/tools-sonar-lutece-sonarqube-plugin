@@ -43,7 +43,7 @@ public class MacroRequiredCheck extends AbstractPageCheck
             String strMacro = params[1];
             if (strTag.equalsIgnoreCase(element.getNodeName()))
             {
-                createViolation(element, "Use " + strMacro + " instead.");
+                createViolation(element, "Use Freemarker macro " + strMacro + " instead of tag " + strTag );
             }
         }
 

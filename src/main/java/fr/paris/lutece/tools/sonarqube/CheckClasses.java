@@ -34,13 +34,16 @@
 
 package fr.paris.lutece.tools.sonarqube;
 
+import fr.paris.lutece.tools.sonarqube.checks.DeprecatedMacroCheck;
 import fr.paris.lutece.tools.sonarqube.checks.MacroRequiredCheck;
 import java.util.Arrays;
 import java.util.List;
 
 public final class CheckClasses {
 
-  private static final List<Class> CLASSES = Arrays.asList(MacroRequiredCheck.class
+  private static final List<Class> CLASSES = Arrays.asList(
+          MacroRequiredCheck.class,
+          DeprecatedMacroCheck.class
   );
 
   private CheckClasses() {

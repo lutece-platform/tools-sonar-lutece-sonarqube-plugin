@@ -34,7 +34,7 @@ package fr.paris.lutece.tools.sonarqube;
  * License 1.0
  */
 
-import fr.paris.lutece.tools.sonarqube.checks.DeprecatedMacroRule;
+import fr.paris.lutece.tools.sonarqube.checks.DeprecatedMacroCheck;
 import fr.paris.lutece.tools.sonarqube.checks.MacroRequiredCheck;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,7 +60,7 @@ public final class RulesList
     public static List<Class<? extends JavaCheck>> getJavaChecks()
     {
         return Collections.unmodifiableList( Arrays.asList(
-//                DeprecatedMacroRule.class,
+//                DeprecatedMacroCheck.class,
 //                MacroRequiredRule.class
         ) );
     }
