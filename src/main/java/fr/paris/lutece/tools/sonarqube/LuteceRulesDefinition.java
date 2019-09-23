@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.tools.sonarqube;
 
-import com.google.gson.Gson;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -53,8 +52,6 @@ public class LuteceRulesDefinition implements RulesDefinition
 
     public static final String REPOSITORY_KEY = "lutece";
     private static final String REPOSITORY_NAME = "Lutece Repository";
-
-    private final Gson gson = new Gson();
 
     private static final Set<String> TEMPLATE_RULE_KEYS = Collections.unmodifiableSet(Stream.of(
             "TemplateRuleCheck").collect(Collectors.toSet()));
@@ -84,126 +81,5 @@ public class LuteceRulesDefinition implements RulesDefinition
         repository.done();
     }
 
-    /*
-    @Override
-    public void define( Context context )
-    {
-        NewRepository repository = context
-                .createRepository( REPOSITORY_KEY, "lutece" )
-                .setName( REPOSITORY_NAME );
 
-        for( Class<? extends JavaCheck> check : RulesList.getChecks() )
-        {
-            new RulesDefinitionAnnotationLoader().load( repository, check );
-            newRule( check, repository );
-        }
-        repository.done();
-    }
-
-    protected void newRule( Class<? extends JavaCheck> ruleClass, NewRepository repository )
-    {
-
-        org.sonar.check.Rule ruleAnnotation = AnnotationUtils.getAnnotation( ruleClass, org.sonar.check.Rule.class );
-        if( ruleAnnotation == null )
-        {
-            throw new IllegalArgumentException( "No Rule annotation was found on " + ruleClass );
-        }
-        String ruleKey = ruleAnnotation.key();
-        if( StringUtils.isEmpty( ruleKey ) )
-        {
-            throw new IllegalArgumentException( "No key is defined in Rule annotation of " + ruleClass );
-        }
-        NewRule rule = repository.rule( ruleKey );
-        if( rule == null )
-        {
-            throw new IllegalStateException( "No rule was created for " + ruleClass + " in " + repository.key() );
-        }
-        ruleMetadata( rule );
-
-        rule.setTemplate( AnnotationUtils.getAnnotation( ruleClass, RuleTemplate.class ) != null );
-    }
-
-    private void ruleMetadata( NewRule rule )
-    {
-        String metadataKey = rule.key();
-        addHtmlDescription( rule, metadataKey );
-        addMetadata( rule, metadataKey );
-    }
-
-    private void addMetadata( NewRule rule, String metadataKey )
-    {
-        URL resource = LuteceRulesDefinition.class.getResource( RESOURCE_BASE_PATH + "/" + metadataKey + "_java.json" );
-        if( resource != null )
-        {
-            RuleMetatada metatada = gson.fromJson( readResource( resource ), RuleMetatada.class );
-            rule.setSeverity( metatada.defaultSeverity.toUpperCase( Locale.US ) );
-            rule.setName( metatada.title );
-            rule.addTags( metatada.tags );
-            rule.setType( RuleType.valueOf( metatada.type ) );
-            rule.setStatus( RuleStatus.valueOf( metatada.status.toUpperCase( Locale.US ) ) );
-            if( metatada.remediation != null )
-            {
-                rule.setDebtRemediationFunction( metatada.remediation.remediationFunction( rule.debtRemediationFunctions() ) );
-                rule.setGapDescription( metatada.remediation.linearDesc );
-            }
-        }
-    }
-
-    private static void addHtmlDescription( NewRule rule, String metadataKey )
-    {
-        URL resource = LuteceRulesDefinition.class.getResource( RESOURCE_BASE_PATH + "/" + metadataKey + "_java.html" );
-        if( resource != null )
-        {
-            rule.setHtmlDescription( readResource( resource ) );
-        }
-    }
-
-    private static String readResource( URL resource )
-    {
-        try( BufferedReader reader = new BufferedReader( new InputStreamReader( resource.openStream() ) ) )
-        {
-            return reader.lines().collect( Collectors.joining( "\n" ) );
-        }
-        catch( Exception e )
-        {
-            throw new IllegalStateException( "Failed to read: " + resource, e );
-        }
-    }
-
-    private static class RuleMetatada
-    {
-
-        String title;
-        String status;
-        @Nullable
-        Remediation remediation;
-
-        String type;
-        String[] tags;
-        String defaultSeverity;
-    }
-
-    private static class Remediation
-    {
-
-        String func;
-        String constantCost;
-        String linearDesc;
-        String linearOffset;
-        String linearFactor;
-
-        public DebtRemediationFunction remediationFunction( DebtRemediationFunctions drf )
-        {
-            if( func.startsWith( "Constant" ) )
-            {
-                return drf.constantPerIssue( constantCost.replace( "mn", "min" ) );
-            }
-            if( "Linear".equals( func ) )
-            {
-                return drf.linear( linearFactor.replace( "mn", "min" ) );
-            }
-            return drf.linearWithOffset( linearFactor.replace( "mn", "min" ), linearOffset.replace( "mn", "min" ) );
-        }
-    }
-     */
 }

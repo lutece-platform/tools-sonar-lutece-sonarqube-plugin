@@ -1,5 +1,3 @@
-package fr.paris.lutece.tools.sonarqube;
-
 /*
  * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
@@ -33,38 +31,32 @@ package fr.paris.lutece.tools.sonarqube;
  *
  * License 1.0
  */
+package fr.paris.lutece.tools.sonarqube.checks;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import org.sonar.plugins.java.api.JavaCheck;
+import java.io.File;
+import org.junit.Test;
+import org.sonar.plugins.html.checks.HtmlIssue;
+import org.sonar.plugins.html.visitor.HtmlSourceCode;
+import static org.junit.Assert.*;
 
-public final class RulesList
+
+/**
+ * DeprecatedMacroCheckTest
+ */
+public class DeprecatedMacroCheckTest
 {
 
-    private RulesList()
+    @Test
+    public void test() throws Exception
     {
+        HtmlSourceCode sourceCode = TestHelper.scan( new File( "src/test/files/deprecated_macro.html" ), new DeprecatedMacroCheck() );
+
+        for( HtmlIssue issue : sourceCode.getIssues() )
+        {
+            System.out.println( "line : " + issue.line() + " : " + issue.message() );
+        }
+        assertEquals( sourceCode.getIssues().size() , 1 );
+        
     }
 
-    public static List<Class<? extends JavaCheck>> getChecks()
-    {
-        List<Class<? extends JavaCheck>> checks = new ArrayList<>();
-        checks.addAll( getJavaChecks() );
-        checks.addAll( getJavaTestChecks() );
-        return Collections.unmodifiableList( checks );
-    }
-
-    public static List<Class<? extends JavaCheck>> getJavaChecks()
-    {
-        return Collections.unmodifiableList( Arrays.asList(
-//                DeprecatedMacroCheck.class,
-//                MacroRequiredRule.class
-        ) );
-    }
-
-    public static List<Class<? extends JavaCheck>> getJavaTestChecks()
-    {
-        return Collections.emptyList();
-    }
 }

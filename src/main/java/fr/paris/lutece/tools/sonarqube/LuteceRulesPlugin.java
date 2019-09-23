@@ -31,12 +31,15 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.tools.sonarqube;
 
-
 import org.sonar.api.Plugin;
-
+import org.sonar.plugins.html.core.Html;
+import org.sonar.plugins.html.core.HtmlSensor;
+import org.sonar.plugins.html.core.Jsp;
+import org.sonar.plugins.html.rules.HtmlRulesDefinition;
+import org.sonar.plugins.html.rules.JspQualityProfile;
+import org.sonar.plugins.html.rules.SonarWayProfile;
 
 /**
  * LuteceRulesPlugin
@@ -47,12 +50,17 @@ public class LuteceRulesPlugin implements Plugin
     @Override
     public void define( Context context )
     {
-
-        // server extensions -> objects are instantiated during server startup
-        context.addExtension( LuteceRulesDefinition.class );
-
-        // batch extensions -> objects are instantiated during code analysis
-        context.addExtension( LuteceFileCheckRegistrar.class );
+        context.addExtensions(
+                // web language
+                Html.class,
+                // web rules repository
+                LuteceRulesDefinition.class,
+                // profiles
+                SonarWayProfile.class,
+                JspQualityProfile.class,
+                // web sensor
+                HtmlSensor.class
+        );
 
     }
 

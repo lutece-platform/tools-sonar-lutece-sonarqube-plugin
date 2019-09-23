@@ -35,12 +35,7 @@ package fr.paris.lutece.tools.sonarqube.checks;
 
 import org.sonar.check.Rule;
 import org.sonar.plugins.html.checks.AbstractPageCheck;
-import org.sonar.plugins.html.node.TagNode;
-import org.sonar.plugins.java.api.JavaFileScanner;
-import org.sonar.plugins.java.api.JavaFileScannerContext;
-
-import org.sonar.plugins.java.api.tree.BaseTreeVisitor;
-import org.sonar.plugins.java.api.tree.MethodTree;
+import org.sonar.plugins.html.node.TextNode;
 
 /**
  * DeprecatedMacroCheck
@@ -78,17 +73,19 @@ public class DeprecatedMacroCheck extends AbstractPageCheck
     };
     
     
-      @Override
-    public void startElement(TagNode element)
+
+    @Override
+    public void characters( TextNode textNode )
     {
+        super.characters( textNode ); 
         for (String strMacroName : DEPRECATED_MACROS)
         {
-            if( element.getNodeName().contains( "@" + strMacroName + " "))
+            if( textNode.getCode().contains( "<@" + strMacroName + " "))
             {
-                createViolation(element, "The Freemarker macro " + strMacroName + " is deprecated and will be removed in Lutece v7" );
+                createViolation( textNode.getStartLinePosition() , "The Freemarker macro " + strMacroName + " is deprecated and will be removed in Lutece v7" );
             }
         }
-
     }
+
       
 }
