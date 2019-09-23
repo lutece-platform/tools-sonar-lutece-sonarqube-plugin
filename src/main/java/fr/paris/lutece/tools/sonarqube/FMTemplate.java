@@ -33,37 +33,32 @@
  */
 package fr.paris.lutece.tools.sonarqube;
 
-import org.sonar.api.Plugin;
+import org.sonar.api.config.Configuration;
 import org.sonar.plugins.html.core.Html;
-import org.sonar.plugins.html.core.HtmlSensor;
-import org.sonar.plugins.html.core.Jsp;
-import org.sonar.plugins.html.rules.HtmlRulesDefinition;
-import org.sonar.plugins.html.rules.JspQualityProfile;
-import org.sonar.plugins.html.rules.SonarWayProfile;
 
 /**
- * LuteceRulesPlugin
+ * FMTemplate
  */
-public class LuteceRulesPlugin implements Plugin
+public class FMTemplate extends Html
 {
+      /** The language key. */
+  public static final String LANGUAGE_KEY = "web";
+  public static final String LANGUAGE_NAME = "FREEMARKER";
 
-    @Override
-    public void define(Context context)
+    
+    private static final String[] FILE_SUFFIXES = { ".html" , ".ftl" };
+    
+    public FMTemplate(Configuration configuration)
     {
-        context.addExtensions(
-                // web language
-//                FMTemplate.class,
-//                Html.class,
-                // web rules repository
-                LuteceRulesDefinition.class,
-                // profiles
-                FMTemplateQualityProfile.class
-                //                SonarWayProfile.class,
-                //                JspQualityProfile.class,
-                // web sensor
-//                FMTemplateSensor.class
-        );
-
+        super(configuration);
     }
 
+    @Override
+    public String[] getFileSuffixes()
+    {
+        return FILE_SUFFIXES;
+    }
+    
+    
+    
 }

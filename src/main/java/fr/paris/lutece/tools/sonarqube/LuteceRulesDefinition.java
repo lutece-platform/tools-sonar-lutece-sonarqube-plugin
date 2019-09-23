@@ -38,7 +38,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.sonar.api.server.rule.RulesDefinition;
-import org.sonar.plugins.html.api.HtmlConstants;
 import org.sonarsource.analyzer.commons.RuleMetadataLoader;
 
 /**
@@ -63,7 +62,7 @@ public class LuteceRulesDefinition implements RulesDefinition
     public void define(Context context)
     {
         NewRepository repository = context
-                .createRepository(REPOSITORY_KEY, HtmlConstants.LANGUAGE_KEY)
+                .createRepository(REPOSITORY_KEY, FMTemplate.LANGUAGE_KEY)
                 .setName(REPOSITORY_NAME);
 
         RuleMetadataLoader ruleMetadataLoader = new RuleMetadataLoader(RESOURCE_BASE_PATH, JSON_PROFILE );

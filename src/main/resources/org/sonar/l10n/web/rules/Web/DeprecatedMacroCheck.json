@@ -1,5 +1,5 @@
 {
-  "title": "Deprecated Freemarker macro should be removed",
+  "title": "Lutece : Deprecated Freemarker macro should be removed",
   "type": "BUG",
   "status": "ready",
   "remediation": {
