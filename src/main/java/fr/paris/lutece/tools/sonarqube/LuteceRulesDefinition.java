@@ -46,26 +46,18 @@ import org.sonarsource.analyzer.commons.RuleMetadataLoader;
  */
 public class LuteceRulesDefinition implements RulesDefinition
 {
-    // don't change that because the path is hard coded in CheckVerifier
-    //private static final String RESOURCE_BASE_PATH = "/org/sonar/l10n/java/rules/squid";
-
-    public static final String REPOSITORY_KEY = "lutece";
-    private static final String REPOSITORY_NAME = "Lutece Repository";
 
     private static final Set<String> TEMPLATE_RULE_KEYS = Collections.unmodifiableSet(Stream.of(
             "TemplateRuleCheck").collect(Collectors.toSet()));
-
-    public static final String RESOURCE_BASE_PATH = "org/sonar/l10n/web/rules/Web";
-    private static final String JSON_PROFILE = RESOURCE_BASE_PATH + "/Lutece_way_profile.json" ;
 
     @Override
     public void define(Context context)
     {
         NewRepository repository = context
-                .createRepository(REPOSITORY_KEY, FMTemplate.LANGUAGE_KEY)
-                .setName(REPOSITORY_NAME);
+                .createRepository(LutecePluginConstants.REPOSITORY_KEY, LutecePluginConstants.LFMT_LANGUAGE_KEY )
+                .setName(LutecePluginConstants.REPOSITORY_NAME);
 
-        RuleMetadataLoader ruleMetadataLoader = new RuleMetadataLoader(RESOURCE_BASE_PATH, JSON_PROFILE );
+        RuleMetadataLoader ruleMetadataLoader = new RuleMetadataLoader( LutecePluginConstants.LUTECE_RESOURCE_BASE_PATH, LutecePluginConstants.LUTECE_WAY_PROFILE_PATH );
 
         ruleMetadataLoader.addRulesByAnnotatedClass(repository, CheckClasses.getCheckClasses());
 

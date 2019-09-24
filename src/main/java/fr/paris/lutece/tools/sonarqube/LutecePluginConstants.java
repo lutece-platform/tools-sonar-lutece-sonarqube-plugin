@@ -33,38 +33,21 @@
  */
 package fr.paris.lutece.tools.sonarqube;
 
-import org.sonar.api.Plugin;
-import org.sonar.plugins.html.core.Html;
-import org.sonar.plugins.html.core.HtmlSensor;
-import org.sonar.plugins.html.core.Jsp;
-import org.sonar.plugins.html.rules.HtmlRulesDefinition;
-import org.sonar.plugins.html.rules.JspQualityProfile;
-import org.sonar.plugins.html.rules.SonarWayProfile;
-
 /**
- * LuteceRulesPlugin
+ * LutecePluginConstants
  */
-public class LuteceRulesPlugin implements Plugin
+public class LutecePluginConstants
 {
-    
+    public static final String REPOSITORY_KEY = "lutece";
+    public static final String REPOSITORY_NAME = "Lutece Repository";
 
-    @Override
-    public void define(Context context)
-    {
-        context.addExtensions(
-                // web language
-                FMTemplate.class,
-//                Html.class,
-                // web rules repository
-                LuteceRulesDefinition.class,
-                // profiles
-                FMTemplateQualityProfile.class,
-                //                SonarWayProfile.class,
-                //                JspQualityProfile.class,
-                // web sensor
-                FMTemplateSensor.class
-        );
+    public static final String LUTECE_PROFILE = "Lutece way";
+    public static final String LUTECE_RESOURCE_BASE_PATH = "org/sonar/l10n/lutece/rules/freemarker";
+    public static final String LUTECE_JSON_PROFILE = "Lutece_way_profile.json";
+    public static final String LUTECE_WAY_PROFILE_PATH = LUTECE_RESOURCE_BASE_PATH + "/" + LUTECE_JSON_PROFILE;
 
-    }
+    // Lutece Freemarker Templates Language
+    public static final String LFMT_LANGUAGE_KEY = "lutece_ftl";
+    public static final String LFMT_LANGUAGE_NAME = "Lutece Freemarker Template";
 
 }

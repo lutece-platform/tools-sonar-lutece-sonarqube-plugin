@@ -34,23 +34,27 @@
 package fr.paris.lutece.tools.sonarqube;
 
 import org.sonar.api.config.Configuration;
+import org.sonar.api.resources.AbstractLanguage;
+import org.sonar.plugins.html.api.HtmlConstants;
 import org.sonar.plugins.html.core.Html;
 
 /**
  * FMTemplate
  */
-public class FMTemplate extends Html
+public class FMTemplate extends AbstractLanguage
 {
-      /** The language key. */
-  public static final String LANGUAGE_KEY = "web";
-  public static final String LANGUAGE_NAME = "FREEMARKER";
 
-    
-    private static final String[] FILE_SUFFIXES = { ".html" , ".ftl" };
-    
-    public FMTemplate(Configuration configuration)
+    private Configuration configuration;
+
+    private static final String[] FILE_SUFFIXES =
     {
-        super(configuration);
+        ".html", ".ftl"
+    };
+
+    public FMTemplate( Configuration configuration )
+    {
+        super( LutecePluginConstants.LFMT_LANGUAGE_KEY, LutecePluginConstants.LFMT_LANGUAGE_NAME );
+        this.configuration = configuration;
     }
 
     @Override
@@ -58,7 +62,5 @@ public class FMTemplate extends Html
     {
         return FILE_SUFFIXES;
     }
-    
-    
-    
+
 }

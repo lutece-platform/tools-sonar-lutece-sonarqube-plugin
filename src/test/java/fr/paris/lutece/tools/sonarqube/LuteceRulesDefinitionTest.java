@@ -50,10 +50,10 @@ public class LuteceRulesDefinitionTest
         LuteceRulesDefinition rulesDefinition = new LuteceRulesDefinition();
         RulesDefinition.Context context = new RulesDefinition.Context();
         rulesDefinition.define(context);
-        RulesDefinition.Repository repository = context.repository(LuteceRulesDefinition.REPOSITORY_KEY);
+        RulesDefinition.Repository repository = context.repository( LutecePluginConstants.REPOSITORY_KEY);
 
         assertThat(repository.name()).isEqualTo("Lutece Repository");
-        assertThat(repository.language()).isEqualTo("web");
+        assertThat(repository.language()).isEqualTo( LutecePluginConstants.LFMT_LANGUAGE_KEY );
 
         assertThat(repository.rules()).hasSize(CheckClasses.getCheckClasses().size());
 

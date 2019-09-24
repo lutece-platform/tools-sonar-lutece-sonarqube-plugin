@@ -33,38 +33,31 @@
  */
 package fr.paris.lutece.tools.sonarqube;
 
-import org.sonar.api.Plugin;
-import org.sonar.plugins.html.core.Html;
-import org.sonar.plugins.html.core.HtmlSensor;
-import org.sonar.plugins.html.core.Jsp;
-import org.sonar.plugins.html.rules.HtmlRulesDefinition;
-import org.sonar.plugins.html.rules.JspQualityProfile;
-import org.sonar.plugins.html.rules.SonarWayProfile;
+import org.sonar.api.SonarRuntime;
+import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
+import org.sonarsource.analyzer.commons.BuiltInQualityProfileJsonLoader;
 
 /**
- * LuteceRulesPlugin
+ * LuteceProfileDefinition
  */
-public class LuteceRulesPlugin implements Plugin
+public class LuteceProfileDefinition implements BuiltInQualityProfilesDefinition
 {
-    
+
+    private final SonarRuntime sonarRuntime;
+
+    public LuteceProfileDefinition( SonarRuntime sonarRuntime )
+    {
+        this.sonarRuntime = sonarRuntime;
+    }
 
     @Override
-    public void define(Context context)
+    public void define( Context context )
     {
-        context.addExtensions(
-                // web language
-                FMTemplate.class,
-//                Html.class,
-                // web rules repository
-                LuteceRulesDefinition.class,
-                // profiles
-                FMTemplateQualityProfile.class,
-                //                SonarWayProfile.class,
-                //                JspQualityProfile.class,
-                // web sensor
-                FMTemplateSensor.class
-        );
-
+        NewBuiltInQualityProfile luteceProfile = context.createBuiltInQualityProfile( LutecePluginConstants.LUTECE_PROFILE, LutecePluginConstants.LFMT_LANGUAGE_KEY );
+//        luteceProfile.activateRule( "common-" + LutecePluginConstants.LFMT_LANGUAGE_KEY, "DuplicatedBlocks" );
+        BuiltInQualityProfileJsonLoader.load(luteceProfile, LutecePluginConstants.REPOSITORY_KEY, LutecePluginConstants.LUTECE_WAY_PROFILE_PATH, LutecePluginConstants.LUTECE_RESOURCE_BASE_PATH, sonarRuntime );
+//        getSecurityRuleKeys().forEach( key -> luteceProfile.activateRule( key.repository(), key.rule() ) );
+        luteceProfile.done();
     }
 
 }
