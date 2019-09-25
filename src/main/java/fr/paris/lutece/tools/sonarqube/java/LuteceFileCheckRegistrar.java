@@ -1,5 +1,3 @@
-package fr.paris.lutece.tools.sonarqube;
-
 /*
  * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
@@ -33,38 +31,52 @@ package fr.paris.lutece.tools.sonarqube;
  *
  * License 1.0
  */
+package fr.paris.lutece.tools.sonarqube.java;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import fr.paris.lutece.tools.sonarqube.LutecePluginConstants;
 import java.util.List;
+import org.sonar.plugins.java.api.CheckRegistrar;
 import org.sonar.plugins.java.api.JavaCheck;
+import org.sonarsource.api.sonarlint.SonarLintSide;
 
-public final class RulesList
+/**
+ * Provide the "checks" (implementations of rules) classes that are going be
+ * executed during source code analysis.
+ *
+ * This class is a batch extension by implementing the
+ * {@link org.sonar.plugins.java.api.CheckRegistrar} interface.
+ */
+@SonarLintSide
+public class LuteceFileCheckRegistrar implements CheckRegistrar
 {
 
-    private RulesList()
+    /**
+     * Register the classes that will be used to instantiate checks during
+     * analysis.
+     * @param registrarContext context
+     */
+    @Override
+    public void register( RegistrarContext registrarContext )
     {
+        // Call to registerClassesForRepository to associate the classes with the correct repository key
+        registrarContext.registerClassesForRepository( LutecePluginConstants.REPOSITORY_KEY, checkClasses(), testCheckClasses() );
     }
 
-    public static List<Class<? extends JavaCheck>> getChecks()
+    /**
+     * Lists all the main checks provided by the plugin
+     * @return List of checks
+     */
+    public static List<Class<? extends JavaCheck>> checkClasses()
     {
-        List<Class<? extends JavaCheck>> checks = new ArrayList<>();
-        checks.addAll( getJavaChecks() );
-        checks.addAll( getJavaTestChecks() );
-        return Collections.unmodifiableList( checks );
+        return JavaRulesList.getJavaChecks();
     }
 
-    public static List<Class<? extends JavaCheck>> getJavaChecks()
+    /**
+     * Lists all the test checks provided by the plugin
+     * @return The list of test checks
+     */
+    public static List<Class<? extends JavaCheck>> testCheckClasses()
     {
-        return Collections.unmodifiableList( Arrays.asList(
-//                DeprecatedMacroCheck.class,
-//                MacroRequiredRule.class
-        ) );
-    }
-
-    public static List<Class<? extends JavaCheck>> getJavaTestChecks()
-    {
-        return Collections.emptyList();
+        return JavaRulesList.getJavaTestChecks();
     }
 }

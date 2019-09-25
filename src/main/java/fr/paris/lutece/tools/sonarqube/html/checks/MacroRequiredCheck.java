@@ -31,30 +31,47 @@
  *
  * License 1.0
  */
+package fr.paris.lutece.tools.sonarqube.html.checks;
 
-package fr.paris.lutece.tools.sonarqube;
+import org.sonar.check.Rule;
+import org.sonar.plugins.html.checks.AbstractPageCheck;
+import org.sonar.plugins.html.node.TagNode;
 
-import fr.paris.lutece.tools.sonarqube.checks.DeprecatedMacroCheck;
-import fr.paris.lutece.tools.sonarqube.checks.MacroRequiredCheck;
-import java.util.Arrays;
-import java.util.List;
+/**
+ * MacroRequiredRule
+ */
+@Rule(key = "MacroRequiredCheck")
 
-public final class CheckClasses {
+public class MacroRequiredCheck extends AbstractPageCheck
+{
+    public static final String KEY = "MacroRequiredCheck";
 
-  private static final List<Class> CLASSES = Arrays.asList(
-          MacroRequiredCheck.class,
-          DeprecatedMacroCheck.class
-  );
+    private static final String[] MACROS_REQUIRED =
+    {
+        "table |@table",
+        "i |@icon",
+        "input |@input",
+        "select |@select",
+        "a |@aButton",
+        "button |@button",
+        "form |@tForm",
+        "ul |@ul",
+    };
 
-  private CheckClasses() {
-  }
+    @Override
+    public void startElement(TagNode element)
+    {
+        for (String strMacroConversion : MACROS_REQUIRED)
+        {
+            String[] params = strMacroConversion.split("\\|");
+            String strTag = params[0].trim();
+            String strMacro = params[1];
+            if (strTag.equalsIgnoreCase(element.getNodeName()))
+            {
+                createViolation(element, "Use Freemarker macro " + strMacro + " instead of HTML tag <" + strTag + ">" );
+            }
+        }
 
-  /**
-   * Gets the list of XML checks.
-   */
-  @SuppressWarnings("rawtypes")
-  public static List<Class> getCheckClasses() {
-    return CLASSES;
-  }
+    }
 
 }

@@ -1,3 +1,5 @@
+package fr.paris.lutece.tools.sonarqube.java;
+
 /*
  * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
@@ -31,46 +33,38 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.tools.sonarqube.checks;
 
-import org.sonar.check.Rule;
-import org.sonar.plugins.html.checks.AbstractPageCheck;
-import org.sonar.plugins.html.node.TagNode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import org.sonar.plugins.java.api.JavaCheck;
 
-/**
- * MacroRequiredRule
- */
-@Rule(key = "MacroRequiredCheck")
-
-public class MacroRequiredCheck extends AbstractPageCheck
+public final class JavaRulesList
 {
 
-    private static final String[] MACROS_REQUIRED =
+    private JavaRulesList()
     {
-        "table |@table",
-        "i |@icon",
-        "input |@input",
-        "select |@select",
-        "a |@aButton",
-        "button |@button",
-        "form |@tForm",
-        "ul |@ul",
-    };
-
-    @Override
-    public void startElement(TagNode element)
-    {
-        for (String strMacroConversion : MACROS_REQUIRED)
-        {
-            String[] params = strMacroConversion.split("\\|");
-            String strTag = params[0].trim();
-            String strMacro = params[1];
-            if (strTag.equalsIgnoreCase(element.getNodeName()))
-            {
-                createViolation(element, "Use Freemarker macro " + strMacro + " instead of tag " + strTag );
-            }
-        }
-
     }
 
+    public static List<Class<? extends JavaCheck>> getChecks()
+    {
+        List<Class<? extends JavaCheck>> checks = new ArrayList<>();
+        checks.addAll( getJavaChecks() );
+        checks.addAll( getJavaTestChecks() );
+        return Collections.unmodifiableList( checks );
+    }
+
+    public static List<Class<? extends JavaCheck>> getJavaChecks()
+    {
+        return Collections.unmodifiableList( Arrays.asList(
+//                DeprecatedMacroCheck.class,
+//                MacroRequiredRule.class
+        ) );
+    }
+
+    public static List<Class<? extends JavaCheck>> getJavaTestChecks()
+    {
+        return Collections.emptyList();
+    }
 }

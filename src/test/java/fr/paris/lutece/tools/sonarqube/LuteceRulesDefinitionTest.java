@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.tools.sonarqube;
 
+import fr.paris.lutece.tools.sonarqube.html.HtmlCheckClasses;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -55,7 +56,7 @@ public class LuteceRulesDefinitionTest
         assertThat(repository.name()).isEqualTo("Lutece Repository");
         assertThat(repository.language()).isEqualTo( LutecePluginConstants.LFMT_LANGUAGE_KEY );
 
-        assertThat(repository.rules()).hasSize(CheckClasses.getCheckClasses().size());
+        assertThat(repository.rules()).hasSize(HtmlCheckClasses.getCheckClasses().size());
 
         RulesDefinition.Rule alertUseRule = repository.rule("MacroRequiredCheck");
         assertThat(alertUseRule).isNotNull();
@@ -77,7 +78,7 @@ public class LuteceRulesDefinitionTest
 
         List<RulesDefinition.Rule> activated = repository.rules().stream().filter(RulesDefinition.Rule::activatedByDefault).collect(Collectors.toList());
         assertThat(activated).isNotEmpty();
-        assertThat(activated.size()).isLessThanOrEqualTo(CheckClasses.getCheckClasses().size());
+        assertThat(activated.size()).isLessThanOrEqualTo(HtmlCheckClasses.getCheckClasses().size());
     }
 
 }

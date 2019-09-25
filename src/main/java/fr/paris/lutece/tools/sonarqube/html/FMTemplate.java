@@ -31,61 +31,37 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.tools.sonarqube.checks;
+package fr.paris.lutece.tools.sonarqube.html;
 
-import org.sonar.check.Rule;
-import org.sonar.plugins.html.checks.AbstractPageCheck;
-import org.sonar.plugins.html.node.TextNode;
+import fr.paris.lutece.tools.sonarqube.LutecePluginConstants;
+import org.sonar.api.config.Configuration;
+import org.sonar.api.resources.AbstractLanguage;
+import org.sonar.plugins.html.api.HtmlConstants;
+import org.sonar.plugins.html.core.Html;
 
 /**
- * DeprecatedMacroCheck
+ * FMTemplate
  */
-@Rule(key = "DeprecatedMacroCheck")
-public class DeprecatedMacroCheck extends AbstractPageCheck
+public class FMTemplate extends AbstractLanguage
 {
-    private static final String[] DEPRECATED_MACROS = {
-        "comboSortedWithParams",
-        "comboWithParams",
-        "comboSiteWithParams",
-        "comboSite",
-        "combo",
-        "comboSorted",
-        "fieldTextArea",
-        "fieldInputCombo",
-        "fieldInputRadioBoxInline",
-        "fieldInputCheckBoxInline",
-        "fieldInputRadioBox",
-        "fieldInputCheckBox",
-        "fieldInputCalendar",
-        "fieldStaticText",
-        "fieldInputWrapper",
-        "fieldInputPassword",
-        "fieldInputText",
-        "filterPanel",
-        "dataTable ",
-        "boxSized",
-        "rowBox",
-        "rowBoxHeader",
-        "row_class",
-        "coloredBg",
-        "unstyledList",
-        "dropdownList ",
-    };
-    
-    
 
-    @Override
-    public void characters( TextNode textNode )
+    private Configuration configuration;
+
+    private static final String[] FILE_SUFFIXES =
     {
-        super.characters( textNode ); 
-        for (String strMacroName : DEPRECATED_MACROS)
-        {
-            if( textNode.getCode().contains( "<@" + strMacroName + " "))
-            {
-                createViolation( textNode.getStartLinePosition() , "The Freemarker macro " + strMacroName + " is deprecated and will be removed in Lutece v7" );
-            }
-        }
+        ".html", ".ftl"
+    };
+
+    public FMTemplate( Configuration configuration )
+    {
+        super( LutecePluginConstants.LFMT_LANGUAGE_KEY, LutecePluginConstants.LFMT_LANGUAGE_NAME );
+        this.configuration = configuration;
     }
 
-      
+    @Override
+    public String[] getFileSuffixes()
+    {
+        return FILE_SUFFIXES;
+    }
+
 }

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.tools.sonarqube.checks;
 
+import fr.paris.lutece.tools.sonarqube.html.checks.MacroRequiredCheck;
 import java.io.File;
 import org.junit.Rule;
 import org.junit.Test;

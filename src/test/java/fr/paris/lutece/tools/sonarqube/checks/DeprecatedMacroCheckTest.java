@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.tools.sonarqube.checks;
 
+import fr.paris.lutece.tools.sonarqube.html.checks.DeprecatedMacroCheck;
 import java.io.File;
 import org.junit.Test;
 import org.sonar.plugins.html.checks.HtmlIssue;

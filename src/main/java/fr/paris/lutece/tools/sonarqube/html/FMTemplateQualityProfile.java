@@ -1,5 +1,6 @@
-package fr.paris.lutece.tools.sonarqube;
+package fr.paris.lutece.tools.sonarqube.html;
 
+import fr.paris.lutece.tools.sonarqube.LutecePluginConstants;
 import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
 
 /**

@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.tools.sonarqube;
 
+import fr.paris.lutece.tools.sonarqube.html.FMTemplateQualityProfile;
+import fr.paris.lutece.tools.sonarqube.html.FMTemplateSensor;
+import fr.paris.lutece.tools.sonarqube.html.FMTemplate;
 import org.sonar.api.Plugin;
 import org.sonar.plugins.html.core.Html;
 import org.sonar.plugins.html.core.HtmlSensor;

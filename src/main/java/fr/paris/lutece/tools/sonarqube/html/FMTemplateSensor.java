@@ -31,8 +31,9 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.tools.sonarqube;
+package fr.paris.lutece.tools.sonarqube.html;
 
+import fr.paris.lutece.tools.sonarqube.LutecePluginConstants;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public final class FMTemplateSensor implements Sensor
     public FMTemplateSensor(NoSonarFilter noSonarFilter, FileLinesContextFactory fileLinesContextFactory, CheckFactory checkFactory)
     {
         this.noSonarFilter = noSonarFilter;
-        this.checks = checkFactory.create( LutecePluginConstants.REPOSITORY_KEY).addAnnotatedChecks((Iterable) CheckClasses.getCheckClasses());
+        this.checks = checkFactory.create( LutecePluginConstants.REPOSITORY_KEY).addAnnotatedChecks((Iterable) HtmlCheckClasses.getCheckClasses());
         this.fileLinesContextFactory = fileLinesContextFactory;
     }
 

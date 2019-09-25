@@ -31,51 +31,39 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.tools.sonarqube;
 
+package fr.paris.lutece.tools.sonarqube.html;
+
+import fr.paris.lutece.tools.sonarqube.html.checks.DeprecatedMacroCheck;
+import fr.paris.lutece.tools.sonarqube.html.checks.MacroRequiredCheck;
+import java.util.Arrays;
 import java.util.List;
-import org.sonar.plugins.java.api.CheckRegistrar;
-import org.sonar.plugins.java.api.JavaCheck;
-import org.sonarsource.api.sonarlint.SonarLintSide;
 
-/**
- * Provide the "checks" (implementations of rules) classes that are going be
- * executed during source code analysis.
- *
- * This class is a batch extension by implementing the
- * {@link org.sonar.plugins.java.api.CheckRegistrar} interface.
- */
-@SonarLintSide
-public class LuteceFileCheckRegistrar implements CheckRegistrar
-{
+public final class HtmlCheckClasses {
 
-    /**
-     * Register the classes that will be used to instantiate checks during
-     * analysis.
-     * @param registrarContext context
-     */
-    @Override
-    public void register( RegistrarContext registrarContext )
-    {
-        // Call to registerClassesForRepository to associate the classes with the correct repository key
-        registrarContext.registerClassesForRepository( LutecePluginConstants.REPOSITORY_KEY, checkClasses(), testCheckClasses() );
-    }
+  private static final List<Class> CLASSES = Arrays.asList(
+          MacroRequiredCheck.class,
+          DeprecatedMacroCheck.class
+  );
+  
+  private static final String[] ACTIVE_RULES = {
+      MacroRequiredCheck.KEY ,
+      DeprecatedMacroCheck.KEY
+  };
 
-    /**
-     * Lists all the main checks provided by the plugin
-     * @return List of checks
-     */
-    public static List<Class<? extends JavaCheck>> checkClasses()
-    {
-        return RulesList.getJavaChecks();
-    }
+  private HtmlCheckClasses() {
+  }
 
-    /**
-     * Lists all the test checks provided by the plugin
-     * @return The list of test checks
-     */
-    public static List<Class<? extends JavaCheck>> testCheckClasses()
-    {
-        return RulesList.getJavaTestChecks();
-    }
+  /**
+   * Gets the list of XML checks.
+     * @return 
+   */
+  @SuppressWarnings("rawtypes")
+  public static List<Class> getCheckClasses() {
+    return CLASSES;
+  }
+
+  public static String[] getActiveRules() {
+      return ACTIVE_RULES;
+  }
 }

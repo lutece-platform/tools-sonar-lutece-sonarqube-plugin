@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.tools.sonarqube;
 
+import fr.paris.lutece.tools.sonarqube.html.HtmlCheckClasses;
 import org.sonar.api.SonarRuntime;
 import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
 import org.sonarsource.analyzer.commons.BuiltInQualityProfileJsonLoader;
@@ -54,9 +55,11 @@ public class LuteceProfileDefinition implements BuiltInQualityProfilesDefinition
     public void define( Context context )
     {
         NewBuiltInQualityProfile luteceProfile = context.createBuiltInQualityProfile( LutecePluginConstants.LUTECE_PROFILE, LutecePluginConstants.LFMT_LANGUAGE_KEY );
-//        luteceProfile.activateRule( "common-" + LutecePluginConstants.LFMT_LANGUAGE_KEY, "DuplicatedBlocks" );
         BuiltInQualityProfileJsonLoader.load(luteceProfile, LutecePluginConstants.REPOSITORY_KEY, LutecePluginConstants.LUTECE_WAY_PROFILE_PATH, LutecePluginConstants.LUTECE_RESOURCE_BASE_PATH, sonarRuntime );
-//        getSecurityRuleKeys().forEach( key -> luteceProfile.activateRule( key.repository(), key.rule() ) );
+        for( String ruleKey : HtmlCheckClasses.getActiveRules())
+        {
+            luteceProfile.activateRule( LutecePluginConstants.REPOSITORY_KEY , ruleKey );
+        }
         luteceProfile.done();
     }
 
