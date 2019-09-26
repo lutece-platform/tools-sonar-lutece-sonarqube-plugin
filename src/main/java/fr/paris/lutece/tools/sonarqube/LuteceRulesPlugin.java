@@ -37,34 +37,20 @@ import fr.paris.lutece.tools.sonarqube.html.FMTemplateQualityProfile;
 import fr.paris.lutece.tools.sonarqube.html.FMTemplateSensor;
 import fr.paris.lutece.tools.sonarqube.html.FMTemplate;
 import org.sonar.api.Plugin;
-import org.sonar.plugins.html.core.Html;
-import org.sonar.plugins.html.core.HtmlSensor;
-import org.sonar.plugins.html.core.Jsp;
-import org.sonar.plugins.html.rules.HtmlRulesDefinition;
-import org.sonar.plugins.html.rules.JspQualityProfile;
-import org.sonar.plugins.html.rules.SonarWayProfile;
 
 /**
  * LuteceRulesPlugin
  */
 public class LuteceRulesPlugin implements Plugin
 {
-    
 
     @Override
     public void define(Context context)
     {
         context.addExtensions(
-                // web language
                 FMTemplate.class,
-//                Html.class,
-                // web rules repository
                 LuteceRulesDefinition.class,
-                // profiles
                 FMTemplateQualityProfile.class,
-                //                SonarWayProfile.class,
-                //                JspQualityProfile.class,
-                // web sensor
                 FMTemplateSensor.class
         );
 

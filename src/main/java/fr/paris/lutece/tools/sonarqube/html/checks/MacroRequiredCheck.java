@@ -35,6 +35,7 @@ package fr.paris.lutece.tools.sonarqube.html.checks;
 
 import org.sonar.check.Rule;
 import org.sonar.plugins.html.checks.AbstractPageCheck;
+import org.sonar.plugins.html.node.Attribute;
 import org.sonar.plugins.html.node.TagNode;
 
 /**
@@ -44,6 +45,7 @@ import org.sonar.plugins.html.node.TagNode;
 
 public class MacroRequiredCheck extends AbstractPageCheck
 {
+
     public static final String KEY = "MacroRequiredCheck";
 
     private static final String[] MACROS_REQUIRED =
@@ -55,23 +57,52 @@ public class MacroRequiredCheck extends AbstractPageCheck
         "a |@aButton",
         "button |@button",
         "form |@tForm",
+        "fieldset |@fieldset",
+        "legend |@fieldste",
         "ul |@ul",
+        "div row |@row",
+        "div col-md- |@columns",
+        "div box |@box",
+        "div form-group |@formGroup",
+        "span fa|@icon",
+        "span glyphicon|@icon",
+        "i fa|@icon",
+        "i glyphicon|@icon",
+        "span badge|@tag",
+        "span label|@tag"
+        
     };
 
     @Override
-    public void startElement(TagNode element)
+    public void startElement( TagNode element )
     {
-        for (String strMacroConversion : MACROS_REQUIRED)
+        for( String strMacroConversion : MACROS_REQUIRED )
         {
-            String[] params = strMacroConversion.split("\\|");
-            String strTag = params[0].trim();
+            String[] params = strMacroConversion.split( "\\|" );
+            String strElement = params[0].trim();
+            String[] fulltag = strElement.split( " " );
             String strMacro = params[1];
-            if (strTag.equalsIgnoreCase(element.getNodeName()))
+            String strTag = fulltag[0];
+
+            if( strTag.equalsIgnoreCase( element.getNodeName() ) )
             {
-                createViolation(element, "Use Freemarker macro " + strMacro + " instead of HTML tag <" + strTag + ">" );
+                if( fulltag.length > 1 )
+                {
+                    String strAttribute = fulltag[1];
+                    for( Attribute attribute : element.getAttributes() )
+                    {
+                        if( attribute.getName().equals( "class" ) && attribute.getValue().contains( strAttribute ) )
+                        {
+                            createViolation( element, "Use Freemarker macro " + strMacro + " instead of HTML tag <" + strTag + " class=\"" + strAttribute + "\">" );
+                        }
+                    }
+                }
+                else
+                {
+                    createViolation( element, "Use Freemarker macro " + strMacro + " instead of HTML tag <" + strTag + ">" );
+                }
             }
         }
 
     }
-
 }

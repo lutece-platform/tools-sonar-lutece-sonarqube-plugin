@@ -31,33 +31,28 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.tools.sonarqube.checks;
+package fr.paris.lutece.tools.sonarqube.html.checks;
 
-import fr.paris.lutece.tools.sonarqube.html.checks.DeprecatedMacroCheck;
 import java.io.File;
 import org.junit.Test;
 import org.sonar.plugins.html.checks.HtmlIssue;
 import org.sonar.plugins.html.visitor.HtmlSourceCode;
-import static org.junit.Assert.*;
-
 
 /**
- * DeprecatedMacroCheckTest
+ * MacroRequiredCheck Test
  */
-public class DeprecatedMacroCheckTest
+public class MacroRequiredCheckTest
 {
 
     @Test
     public void test() throws Exception
     {
-        HtmlSourceCode sourceCode = TestHelper.scan( new File( "src/test/files/deprecated_macro.html" ), new DeprecatedMacroCheck() );
-
-        for( HtmlIssue issue : sourceCode.getIssues() )
-        {
-            System.out.println( "line : " + issue.line() + " : " + issue.message() );
-        }
-        assertEquals( sourceCode.getIssues().size() , 1 );
+        HtmlSourceCode sourceCode = TestHelper.scan(new File("src/test/files/macro_required.html"), new MacroRequiredCheck());
         
+        for( HtmlIssue issue : sourceCode.getIssues())
+        {
+            System.out.println( "line : " + issue.line() + " : " + issue.message() ); 
+        }
     }
 
 }

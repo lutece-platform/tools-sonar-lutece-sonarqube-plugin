@@ -1,6 +1,6 @@
 {
   "title": "Lutece : HTML tag should be replaced by a macro",
-  "type": "BUG",
+  "type": "CODE_SMELL",
   "status": "ready",
   "remediation": {
     "func": "Constant\/Issue",

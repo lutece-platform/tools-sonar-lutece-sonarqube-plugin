@@ -31,31 +31,54 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.tools.sonarqube.checks;
+package fr.paris.lutece.tools.sonarqube.html.checks;
 
-import fr.paris.lutece.tools.sonarqube.html.checks.MacroRequiredCheck;
 import java.io.File;
-import org.junit.Rule;
-import org.junit.Test;
-import org.sonar.plugins.html.checks.HtmlIssue;
-import org.sonar.plugins.html.checks.style.InlineStyleCheck;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.fs.internal.TestInputFileBuilder;
+import org.sonar.plugins.html.analyzers.ComplexityVisitor;
+import org.sonar.plugins.html.analyzers.PageCountLines;
+import org.sonar.plugins.html.api.HtmlConstants;
+import org.sonar.plugins.html.lex.PageLexer;
+import org.sonar.plugins.html.visitor.DefaultNodeVisitor;
+import org.sonar.plugins.html.visitor.HtmlAstScanner;
 import org.sonar.plugins.html.visitor.HtmlSourceCode;
 
-/**
- * MacroRequiredCheck Test
- */
-public class MacroRequiredCheckTest
-{
+public class TestHelper {
 
-    @Test
-    public void test() throws Exception
-    {
-        HtmlSourceCode sourceCode = TestHelper.scan(new File("src/test/files/macro_required.html"), new MacroRequiredCheck());
-        
-        for( HtmlIssue issue : sourceCode.getIssues())
-        {
-            System.out.println( "line : " + issue.line() + " : " + issue.message() ); 
-        }
+  private TestHelper() {
+  }
+
+  public static HtmlSourceCode scan(File file, DefaultNodeVisitor visitor) {
+    FileReader fileReader;
+    try {
+      fileReader = new FileReader(file);
+    } catch (FileNotFoundException e) {
+      throw new IllegalStateException(e);
     }
 
+    HtmlSourceCode result = new HtmlSourceCode(
+      new TestInputFileBuilder("key", file.getPath())
+        .setLanguage(HtmlConstants.LANGUAGE_KEY)
+        .setType(InputFile.Type.MAIN)
+        .setModuleBaseDir(new File(".").toPath())
+        .setCharset(StandardCharsets.UTF_8)
+        .build()
+    );
+
+    HtmlAstScanner walker = new HtmlAstScanner(Arrays.asList(new PageCountLines(), new ComplexityVisitor()));
+    walker.addVisitor(visitor);
+    walker.scan(
+      new PageLexer().parse(fileReader),
+      result
+    );
+
+    return result;
+  }
+
 }
+

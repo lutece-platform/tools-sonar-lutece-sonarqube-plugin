@@ -60,7 +60,8 @@ public class LuteceRulesDefinition implements RulesDefinition
 
         RuleMetadataLoader ruleMetadataLoader = new RuleMetadataLoader( LutecePluginConstants.LUTECE_RESOURCE_BASE_PATH, LutecePluginConstants.LUTECE_WAY_PROFILE_PATH );
 
-        ruleMetadataLoader.addRulesByAnnotatedClass(repository, HtmlCheckClasses.getCheckClasses());
+//        ruleMetadataLoader.addRulesByAnnotatedClass(repository, HtmlCheckClasses.getCheckClasses());
+        ruleMetadataLoader.addRulesByRuleKey( repository, HtmlCheckClasses.getRuleKeys() );
 
         for (NewRule rule : repository.rules())
         {

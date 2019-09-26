@@ -8,12 +8,12 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>sonar-plugin</packaging>
 
-    <name>SonarQube Lutece Rules</name>
+    <name>SonarLutece :: SonarQube Plugin for Lutece</name>
     <description>Lutece Rules for SonarQube</description>
     <inceptionYear>2019</inceptionYear>
     <licenses>
         <license>
-            <name>>BSD</name>  
+            <name>BSD</name>  
         </license>         
     </licenses>
     
@@ -149,9 +149,9 @@
                 <extensions>true</extensions>
                 <configuration>
                     <pluginKey>lutece-custom</pluginKey>
-                    <pluginName>Lutece</pluginName>
+                    <pluginName>SonarLutece</pluginName>
                     <pluginClass>fr.paris.lutece.tools.sonarqube.LuteceRulesPlugin</pluginClass>
-                    <pluginDescription>Lutece rules</pluginDescription>
+                    <pluginDescription>Code Analyzer for Lutece</pluginDescription>
                     <pluginOrganizationName>Lutece Project</pluginOrganizationName>
                     <pluginOrganizationUrl>http://lutece-platform.github.io</pluginOrganizationUrl>
                     <pluginUrl>https://github.com/lutece-platform/tools-sonar-lutece-sonarqube-plugin</pluginUrl>

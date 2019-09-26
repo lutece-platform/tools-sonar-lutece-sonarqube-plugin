@@ -31,7 +31,6 @@
  *
  * License 1.0
  */
-
 package fr.paris.lutece.tools.sonarqube.html;
 
 import fr.paris.lutece.tools.sonarqube.html.checks.DeprecatedMacroCheck;
@@ -39,31 +38,47 @@ import fr.paris.lutece.tools.sonarqube.html.checks.MacroRequiredCheck;
 import java.util.Arrays;
 import java.util.List;
 
-public final class HtmlCheckClasses {
+public final class HtmlCheckClasses
+{
 
-  private static final List<Class> CLASSES = Arrays.asList(
-          MacroRequiredCheck.class,
-          DeprecatedMacroCheck.class
-  );
-  
-  private static final String[] ACTIVE_RULES = {
-      MacroRequiredCheck.KEY ,
-      DeprecatedMacroCheck.KEY
-  };
+    private static final List<Class> CLASSES = Arrays.asList(
+            MacroRequiredCheck.class,
+            DeprecatedMacroCheck.class
+    );
 
-  private HtmlCheckClasses() {
-  }
+    private static final List<String> RULE_KEYS = Arrays.asList(
+            MacroRequiredCheck.KEY,
+            DeprecatedMacroCheck.KEY
+    );
 
-  /**
-   * Gets the list of XML checks.
-     * @return 
-   */
-  @SuppressWarnings("rawtypes")
-  public static List<Class> getCheckClasses() {
-    return CLASSES;
-  }
+    private static final String[] ACTIVE_RULES =
+    {
+        MacroRequiredCheck.KEY,
+        DeprecatedMacroCheck.KEY
+    };
 
-  public static String[] getActiveRules() {
-      return ACTIVE_RULES;
-  }
+    private HtmlCheckClasses()
+    {
+    }
+
+    /**
+     * Gets the list of XML checks.
+     *
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    public static List<Class> getCheckClasses()
+    {
+        return CLASSES;
+    }
+
+    public static List<String> getRuleKeys()
+    {
+        return RULE_KEYS;
+    }
+
+    public static String[] getActiveRules()
+    {
+        return ACTIVE_RULES;
+    }
 }
