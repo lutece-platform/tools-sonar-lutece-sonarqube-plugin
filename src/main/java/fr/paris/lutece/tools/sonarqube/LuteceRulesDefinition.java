@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.tools.sonarqube;
 
+import fr.paris.lutece.tools.sonarqube.docs.DocumentationCheckClasses;
 import fr.paris.lutece.tools.sonarqube.html.HtmlCheckClasses;
 import java.util.Collections;
 import java.util.Set;
@@ -60,8 +61,11 @@ public class LuteceRulesDefinition implements RulesDefinition
 
         RuleMetadataLoader ruleMetadataLoader = new RuleMetadataLoader( LutecePluginConstants.LUTECE_RESOURCE_BASE_PATH, LutecePluginConstants.LUTECE_WAY_PROFILE_PATH );
 
-//        ruleMetadataLoader.addRulesByAnnotatedClass(repository, HtmlCheckClasses.getCheckClasses());
-        ruleMetadataLoader.addRulesByRuleKey( repository, HtmlCheckClasses.getRuleKeys() );
+        ruleMetadataLoader.addRulesByAnnotatedClass( repository, HtmlCheckClasses.getCheckClasses());
+        ruleMetadataLoader.addRulesByAnnotatedClass( repository, DocumentationCheckClasses.getCheckClasses());
+        
+        
+//        ruleMetadataLoader.addRulesByRuleKey( repository, HtmlCheckClasses.getRuleKeys() );
 
         for (NewRule rule : repository.rules())
         {

@@ -31,65 +31,20 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.tools.sonarqube.html.checks;
+package fr.paris.lutece.tools.sonarqube.docs;
 
+import org.sonar.check.Priority;
 import org.sonar.check.Rule;
-import org.sonar.plugins.html.checks.AbstractPageCheck;
-import org.sonar.plugins.html.node.TextNode;
 import org.sonar.squidbridge.annotations.ActivatedByDefault;
 
-/**
- * DeprecatedMacroCheck
- */
-@Rule(key = DeprecatedMacroCheck.KEY )
+@Rule(
+        key = ReadmeFilePresentCheck.RULE_KEY,
+        name = "Each project should contain a \"README.md\" file",
+        priority = Priority.MAJOR)
+
 @ActivatedByDefault
-public class DeprecatedMacroCheck extends AbstractPageCheck
+public class ReadmeFilePresentCheck extends DocumentationVisitor
 {
-    public static final String KEY = "DeprecatedMacroCheck";
-    
-    private static final String[] DEPRECATED_MACROS = {
-        "comboSortedWithParams",
-        "comboWithParams",
-        "comboSiteWithParams",
-        "comboSite",
-        "combo",
-        "comboSorted",
-        "fieldTextArea",
-        "fieldInputCombo",
-        "fieldInputRadioBoxInline",
-        "fieldInputCheckBoxInline",
-        "fieldInputRadioBox",
-        "fieldInputCheckBox",
-        "fieldInputCalendar",
-        "fieldStaticText",
-        "fieldInputWrapper",
-        "fieldInputPassword",
-        "fieldInputText",
-        "filterPanel",
-        "dataTable ",
-        "boxSized",
-        "rowBox",
-        "rowBoxHeader",
-        "row_class",
-        "coloredBg",
-        "unstyledList",
-        "dropdownList ",
-    };
-    
-    
+    public static final String RULE_KEY = "ReadmeFilePresent";
 
-    @Override
-    public void characters( TextNode textNode )
-    {
-        super.characters( textNode ); 
-        for (String strMacroName : DEPRECATED_MACROS)
-        {
-            if( textNode.getCode().contains( "<@" + strMacroName + " "))
-            {
-                createViolation( textNode.getStartLinePosition() , "The Freemarker macro " + strMacroName + " is deprecated and will be removed in Lutece v7" );
-            }
-        }
-    }
-
-      
 }

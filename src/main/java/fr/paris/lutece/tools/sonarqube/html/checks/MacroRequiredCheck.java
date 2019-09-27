@@ -37,12 +37,13 @@ import org.sonar.check.Rule;
 import org.sonar.plugins.html.checks.AbstractPageCheck;
 import org.sonar.plugins.html.node.Attribute;
 import org.sonar.plugins.html.node.TagNode;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
 
 /**
  * MacroRequiredRule
  */
-@Rule(key = "MacroRequiredCheck")
-
+@Rule(key = MacroRequiredCheck.KEY )
+@ActivatedByDefault
 public class MacroRequiredCheck extends AbstractPageCheck
 {
 
