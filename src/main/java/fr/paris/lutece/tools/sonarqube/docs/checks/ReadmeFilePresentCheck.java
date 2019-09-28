@@ -31,36 +31,21 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.tools.sonarqube;
+package fr.paris.lutece.tools.sonarqube.docs.checks;
 
-import fr.paris.lutece.tools.sonarqube.html.HtmlCheckClasses;
-import org.sonar.api.SonarRuntime;
-import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
-import org.sonarsource.analyzer.commons.BuiltInQualityProfileJsonLoader;
+import fr.paris.lutece.tools.sonarqube.docs.DocumentationVisitor;
+import org.sonar.check.Priority;
+import org.sonar.check.Rule;
+import org.sonar.squidbridge.annotations.ActivatedByDefault;
 
-/**
- * LuteceProfileDefinition
- */
-public class LuteceProfileDefinition implements BuiltInQualityProfilesDefinition
+@Rule(
+        key = ReadmeFilePresentCheck.RULE_KEY,
+        name = "Each project should contain a \"README.md\" file",
+        priority = Priority.MAJOR)
+
+@ActivatedByDefault
+public class ReadmeFilePresentCheck extends DocumentationVisitor
 {
-
-    private final SonarRuntime sonarRuntime;
-
-    public LuteceProfileDefinition( SonarRuntime sonarRuntime )
-    {
-        this.sonarRuntime = sonarRuntime;
-    }
-
-    @Override
-    public void define( Context context )
-    {
-        NewBuiltInQualityProfile luteceProfile = context.createBuiltInQualityProfile( LutecePluginConstants.LUTECE_PROFILE, LutecePluginConstants.LFMT_LANGUAGE_KEY );
-        BuiltInQualityProfileJsonLoader.load(luteceProfile, LutecePluginConstants.REPOSITORY_KEY, LutecePluginConstants.LUTECE_WAY_PROFILE_PATH, LutecePluginConstants.LUTECE_RESOURCE_BASE_PATH, sonarRuntime );
-        for( String ruleKey : HtmlCheckClasses.getActiveRules())
-        {
-            luteceProfile.activateRule( LutecePluginConstants.REPOSITORY_KEY , ruleKey );
-        }
-        luteceProfile.done();
-    }
+    public static final String RULE_KEY = "ReadmeFilePresentCheck";
 
 }

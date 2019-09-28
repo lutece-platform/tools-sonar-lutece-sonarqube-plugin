@@ -1,0 +1,16 @@
+{
+  "title": "Lutece : README.md file should be present",
+  "type": "BUG",
+  "status": "ready",
+  "remediation": {
+    "func": "Constant\/Issue",
+    "constantCost": "5min"
+  },
+  "tags": [
+    "lutece","documentation"
+  ],
+  "defaultSeverity": "Major",
+  "ruleSpecification": "RSPEC-125",
+  "sqKey": "ReadmeFilePresentCheck",
+  "scope": "Main"
+}

@@ -59,7 +59,7 @@ public class LuteceFileCheckRegistrar implements CheckRegistrar
     public void register( RegistrarContext registrarContext )
     {
         // Call to registerClassesForRepository to associate the classes with the correct repository key
-        registrarContext.registerClassesForRepository( LutecePluginConstants.REPOSITORY_KEY, checkClasses(), testCheckClasses() );
+        registrarContext.registerClassesForRepository(LutecePluginConstants.FMT_REPOSITORY_KEY, checkClasses(), testCheckClasses() );
     }
 
     /**

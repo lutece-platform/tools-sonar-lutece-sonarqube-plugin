@@ -54,7 +54,7 @@ public class FMTemplate extends AbstractLanguage
 
     public FMTemplate( Configuration configuration )
     {
-        super( LutecePluginConstants.LFMT_LANGUAGE_KEY, LutecePluginConstants.LFMT_LANGUAGE_NAME );
+        super(LutecePluginConstants.FMT_LANGUAGE_KEY, LutecePluginConstants.FMT_LANGUAGE_NAME );
         this.configuration = configuration;
     }
 

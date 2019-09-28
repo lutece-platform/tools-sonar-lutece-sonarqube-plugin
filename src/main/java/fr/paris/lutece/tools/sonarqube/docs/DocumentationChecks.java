@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.tools.sonarqube.docs;
 
+import fr.paris.lutece.tools.sonarqube.docs.checks.ReadmeFilePresentCheck;
 import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

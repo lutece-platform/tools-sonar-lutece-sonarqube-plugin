@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.tools.sonarqube;
 
-import fr.paris.lutece.tools.sonarqube.html.FMTemplateQualityProfile;
 import fr.paris.lutece.tools.sonarqube.html.FMTemplateSensor;
 import fr.paris.lutece.tools.sonarqube.html.FMTemplate;
 import org.sonar.api.Plugin;
@@ -50,7 +49,7 @@ public class LuteceRulesPlugin implements Plugin
         context.addExtensions(
                 FMTemplate.class,
                 LuteceRulesDefinition.class,
-                FMTemplateQualityProfile.class,
+                LuteceProfilesDefinition.class,
                 FMTemplateSensor.class
         );
 

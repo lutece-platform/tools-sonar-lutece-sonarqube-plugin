@@ -34,8 +34,9 @@
 package fr.paris.lutece.tools.sonarqube;
 
 import fr.paris.lutece.tools.sonarqube.docs.DocumentationCheckClasses;
-import fr.paris.lutece.tools.sonarqube.html.HtmlCheckClasses;
+import fr.paris.lutece.tools.sonarqube.html.FMTCheckClasses;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -55,28 +56,25 @@ public class LuteceRulesDefinition implements RulesDefinition
     @Override
     public void define(Context context)
     {
-        NewRepository repository = context
-                .createRepository(LutecePluginConstants.REPOSITORY_KEY, LutecePluginConstants.LFMT_LANGUAGE_KEY )
-                .setName(LutecePluginConstants.REPOSITORY_NAME);
 
-        RuleMetadataLoader ruleMetadataLoader = new RuleMetadataLoader( LutecePluginConstants.LUTECE_RESOURCE_BASE_PATH, LutecePluginConstants.LUTECE_WAY_PROFILE_PATH );
-
-        ruleMetadataLoader.addRulesByAnnotatedClass( repository, HtmlCheckClasses.getCheckClasses());
-        ruleMetadataLoader.addRulesByAnnotatedClass( repository, DocumentationCheckClasses.getCheckClasses());
+        createRepository(context, LutecePluginConstants.FMT_REPOSITORY_KEY, LutecePluginConstants.FMT_REPOSITORY_NAME, LutecePluginConstants.FMT_LANGUAGE_KEY,
+                LutecePluginConstants.FMT_RESOURCE_PATH, LutecePluginConstants.FMT_WAY_PROFILE_PATH, FMTCheckClasses.getCheckClasses() );
         
-        
-//        ruleMetadataLoader.addRulesByRuleKey( repository, HtmlCheckClasses.getRuleKeys() );
 
-        for (NewRule rule : repository.rules())
-        {
-            if (TEMPLATE_RULE_KEYS.contains(rule.key()))
-            {
-                rule.setTemplate(true);
-            }
-        }
-
-        repository.done();
+        createRepository(context, LutecePluginConstants.XML_REPOSITORY_KEY, LutecePluginConstants.XML_REPOSITORY_NAME, LutecePluginConstants.XML_LANGUAGE_KEY,
+                LutecePluginConstants.XML_RESOURCE_PATH, LutecePluginConstants.XML_WAY_PROFILE_PATH, DocumentationCheckClasses.getCheckClasses() );
     }
 
+    private void createRepository(Context context, String key, String name, String languageKey, String resourcePath, String profile, List<Class> classes )
+    {
+        NewRepository repository = context
+                .createRepository( key , languageKey )
+                .setName( name);
+
+        RuleMetadataLoader ruleMetadataLoader = new RuleMetadataLoader( resourcePath, profile );
+
+        ruleMetadataLoader.addRulesByAnnotatedClass( repository, classes );
+        repository.done();
+    }
 
 }

@@ -31,20 +31,54 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.tools.sonarqube.docs;
+package fr.paris.lutece.tools.sonarqube.html;
 
-import org.sonar.check.Priority;
-import org.sonar.check.Rule;
-import org.sonar.squidbridge.annotations.ActivatedByDefault;
+import fr.paris.lutece.tools.sonarqube.html.checks.DeprecatedMacroCheck;
+import fr.paris.lutece.tools.sonarqube.html.checks.MacroRequiredCheck;
+import java.util.Arrays;
+import java.util.List;
 
-@Rule(
-        key = ReadmeFilePresentCheck.RULE_KEY,
-        name = "Each project should contain a \"README.md\" file",
-        priority = Priority.MAJOR)
-
-@ActivatedByDefault
-public class ReadmeFilePresentCheck extends DocumentationVisitor
+public final class FMTCheckClasses
 {
-    public static final String RULE_KEY = "ReadmeFilePresent";
 
+    private static final List<Class> CLASSES = Arrays.asList(
+            MacroRequiredCheck.class,
+            DeprecatedMacroCheck.class
+    );
+
+    private static final List<String> RULE_KEYS = Arrays.asList(
+            MacroRequiredCheck.KEY,
+            DeprecatedMacroCheck.KEY
+    );
+
+    private static final String[] ACTIVE_RULES =
+    {
+        MacroRequiredCheck.KEY,
+        DeprecatedMacroCheck.KEY
+    };
+
+    private FMTCheckClasses()
+    {
+    }
+
+    /**
+     * Gets the list of XML checks.
+     *
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    public static List<Class> getCheckClasses()
+    {
+        return CLASSES;
+    }
+
+    public static List<String> getRuleKeys()
+    {
+        return RULE_KEYS;
+    }
+
+    public static String[] getActiveRules()
+    {
+        return ACTIVE_RULES;
+    }
 }

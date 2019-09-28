@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.tools.sonarqube.docs;
 
+import fr.paris.lutece.tools.sonarqube.docs.checks.ReadmeFilePresentCheck;
 import java.util.Arrays;
 import java.util.List;
 

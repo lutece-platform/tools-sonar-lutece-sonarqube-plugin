@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.tools.sonarqube;
 
-import fr.paris.lutece.tools.sonarqube.html.HtmlCheckClasses;
+import fr.paris.lutece.tools.sonarqube.html.FMTCheckClasses;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,12 +51,12 @@ public class LuteceRulesDefinitionTest
         LuteceRulesDefinition rulesDefinition = new LuteceRulesDefinition();
         RulesDefinition.Context context = new RulesDefinition.Context();
         rulesDefinition.define(context);
-        RulesDefinition.Repository repository = context.repository( LutecePluginConstants.REPOSITORY_KEY);
+        RulesDefinition.Repository repository = context.repository(LutecePluginConstants.FMT_REPOSITORY_KEY);
 
         assertThat(repository.name()).isEqualTo("Lutece Repository");
-        assertThat(repository.language()).isEqualTo( LutecePluginConstants.LFMT_LANGUAGE_KEY );
+        assertThat(repository.language()).isEqualTo(LutecePluginConstants.FMT_LANGUAGE_KEY );
 
-        assertThat(repository.rules()).hasSize(HtmlCheckClasses.getCheckClasses().size());
+        assertThat(repository.rules()).hasSize(FMTCheckClasses.getCheckClasses().size());
 
         RulesDefinition.Rule alertUseRule = repository.rule("MacroRequiredCheck");
         assertThat(alertUseRule).isNotNull();
@@ -78,7 +78,7 @@ public class LuteceRulesDefinitionTest
 
         List<RulesDefinition.Rule> activated = repository.rules().stream().filter(RulesDefinition.Rule::activatedByDefault).collect(Collectors.toList());
         assertThat(activated).isNotEmpty();
-        assertThat(activated.size()).isLessThanOrEqualTo(HtmlCheckClasses.getCheckClasses().size());
+        assertThat(activated.size()).isLessThanOrEqualTo(FMTCheckClasses.getCheckClasses().size());
     }
 
 }

@@ -31,54 +31,42 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.tools.sonarqube.html;
+package fr.paris.lutece.tools.sonarqube;
 
-import fr.paris.lutece.tools.sonarqube.html.checks.DeprecatedMacroCheck;
-import fr.paris.lutece.tools.sonarqube.html.checks.MacroRequiredCheck;
-import java.util.Arrays;
-import java.util.List;
+import fr.paris.lutece.tools.sonarqube.html.FMTCheckClasses;
+import org.sonar.api.SonarRuntime;
+import org.sonar.api.server.profile.BuiltInQualityProfilesDefinition;
+import org.sonarsource.analyzer.commons.BuiltInQualityProfileJsonLoader;
 
-public final class HtmlCheckClasses
+/**
+ * LuteceProfilesDefinition
+ */
+public class LuteceProfilesDefinition implements BuiltInQualityProfilesDefinition
 {
 
-    private static final List<Class> CLASSES = Arrays.asList(
-            MacroRequiredCheck.class,
-            DeprecatedMacroCheck.class
-    );
+    private final SonarRuntime sonarRuntime;
 
-    private static final List<String> RULE_KEYS = Arrays.asList(
-            MacroRequiredCheck.KEY,
-            DeprecatedMacroCheck.KEY
-    );
-
-    private static final String[] ACTIVE_RULES =
+    public LuteceProfilesDefinition( SonarRuntime sonarRuntime )
     {
-        MacroRequiredCheck.KEY,
-        DeprecatedMacroCheck.KEY
-    };
-
-    private HtmlCheckClasses()
-    {
+        this.sonarRuntime = sonarRuntime;
     }
 
-    /**
-     * Gets the list of XML checks.
-     *
-     * @return
-     */
-    @SuppressWarnings("rawtypes")
-    public static List<Class> getCheckClasses()
+    @Override
+    public void define( Context context )
     {
-        return CLASSES;
+        createProfile(context, LutecePluginConstants.LUTECE_PROFILE, LutecePluginConstants.FMT_LANGUAGE_KEY,
+               LutecePluginConstants.FMT_REPOSITORY_KEY, LutecePluginConstants.FMT_WAY_PROFILE_PATH , LutecePluginConstants.FMT_RESOURCE_PATH);
+
+        createProfile(context, LutecePluginConstants.LUTECE_PROFILE, LutecePluginConstants.XML_LANGUAGE_KEY,
+               LutecePluginConstants.XML_REPOSITORY_KEY, LutecePluginConstants.XML_WAY_PROFILE_PATH , LutecePluginConstants.XML_RESOURCE_PATH);
+    }
+    
+    private void createProfile( Context context, String name, String language, String repositoryKey , String profilePath , String resourcePath )
+    {
+        NewBuiltInQualityProfile profile = context.createBuiltInQualityProfile( name , language );
+        BuiltInQualityProfileJsonLoader.load( profile, repositoryKey , profilePath , resourcePath, sonarRuntime );
+        profile.done();
+        
     }
 
-    public static List<String> getRuleKeys()
-    {
-        return RULE_KEYS;
-    }
-
-    public static String[] getActiveRules()
-    {
-        return ACTIVE_RULES;
-    }
 }

@@ -38,16 +38,24 @@ package fr.paris.lutece.tools.sonarqube;
  */
 public class LutecePluginConstants
 {
-    public static final String REPOSITORY_KEY = "lutece";
-    public static final String REPOSITORY_NAME = "Lutece Repository";
 
     public static final String LUTECE_PROFILE = "Lutece way";
-    public static final String LUTECE_RESOURCE_BASE_PATH = "org/sonar/l10n/lutece/rules/freemarker";
     public static final String LUTECE_JSON_PROFILE = "Lutece_way_profile.json";
-    public static final String LUTECE_WAY_PROFILE_PATH = LUTECE_RESOURCE_BASE_PATH + "/" + LUTECE_JSON_PROFILE;
 
     // Lutece Freemarker Templates Language
-    public static final String LFMT_LANGUAGE_KEY = "lutece_ftl";
-    public static final String LFMT_LANGUAGE_NAME = "Lutece Freemarker Template";
+    public static final String FMT_REPOSITORY_KEY = "lutece-templates";
+    public static final String FMT_REPOSITORY_NAME = "Lutece Repository";
+    public static final String FMT_LANGUAGE_KEY = "lutece_ftl";
+    public static final String FMT_LANGUAGE_NAME = "Lutece Freemarker Template";
+    public static final String FMT_RESOURCE_PATH = "org/sonar/l10n/lutece/rules/freemarker";
+    public static final String FMT_WAY_PROFILE_PATH = FMT_RESOURCE_PATH + "/" + LUTECE_JSON_PROFILE;
+    
+    public static final String XML_REPOSITORY_KEY = "lutece-xml";
+    public static final String XML_REPOSITORY_NAME = "Lutece Repository";
+    public static final String XML_LANGUAGE_KEY = "xml";
+    public static final String XML_LANGUAGE_NAME = "XML";
+    public static final String XML_RESOURCE_PATH = "org/sonar/l10n/xml/rules/xml";
+    public static final String XML_WAY_PROFILE_PATH = XML_RESOURCE_PATH + "/" + LUTECE_JSON_PROFILE;
+
 
 }

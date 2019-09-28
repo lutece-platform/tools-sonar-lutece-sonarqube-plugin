@@ -81,7 +81,7 @@ public final class FMTemplateSensor implements Sensor
     public FMTemplateSensor(NoSonarFilter noSonarFilter, FileLinesContextFactory fileLinesContextFactory, CheckFactory checkFactory)
     {
         this.noSonarFilter = noSonarFilter;
-        this.checks = checkFactory.create( LutecePluginConstants.REPOSITORY_KEY).addAnnotatedChecks((Iterable) HtmlCheckClasses.getCheckClasses());
+        this.checks = checkFactory.create(LutecePluginConstants.FMT_REPOSITORY_KEY).addAnnotatedChecks((Iterable) FMTCheckClasses.getCheckClasses());
         this.fileLinesContextFactory = fileLinesContextFactory;
     }
 
@@ -89,7 +89,7 @@ public final class FMTemplateSensor implements Sensor
     public void describe(SensorDescriptor descriptor)
     {
         descriptor
-                .name( LutecePluginConstants.LFMT_LANGUAGE_KEY )
+                .name(LutecePluginConstants.FMT_LANGUAGE_KEY )
                 .onlyOnFileType(InputFile.Type.MAIN);
     }
 
@@ -106,7 +106,7 @@ public final class FMTemplateSensor implements Sensor
         Iterable<InputFile> inputFiles = fileSystem.inputFiles(
                 predicates.and(
                         predicates.hasType(InputFile.Type.MAIN),
-                        predicates.hasLanguages( LutecePluginConstants.LFMT_LANGUAGE_KEY )
+                        predicates.hasLanguages(LutecePluginConstants.FMT_LANGUAGE_KEY )
                 ));
 
         for (InputFile inputFile : inputFiles)
