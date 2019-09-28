@@ -41,7 +41,8 @@ import org.sonar.squidbridge.annotations.ActivatedByDefault;
 @Rule(
         key = ReadmeFilePresentCheck.RULE_KEY,
         name = "Each project should contain a \"README.md\" file",
-        priority = Priority.MAJOR)
+        priority = Priority.MAJOR
+        )
 
 @ActivatedByDefault
 public class ReadmeFilePresentCheck extends DocumentationVisitor

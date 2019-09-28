@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,30 +31,33 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.tools.sonarqube;
+package fr.paris.lutece.tools.sonarqube.docs;
 
-import fr.paris.lutece.tools.sonarqube.docs.DocumentationSensor;
-import fr.paris.lutece.tools.sonarqube.html.FMTemplateSensor;
-import fr.paris.lutece.tools.sonarqube.html.FMTemplate;
-import org.sonar.api.Plugin;
+import fr.paris.lutece.tools.sonarqube.LutecePluginConstants;
+import org.sonar.api.batch.fs.InputFile;
+import org.sonar.api.batch.sensor.Sensor;
+import org.sonar.api.batch.sensor.SensorContext;
+import org.sonar.api.batch.sensor.SensorDescriptor;
 
 /**
- * LuteceRulesPlugin
+ * DocumentationSensor
  */
-public class LuteceRulesPlugin implements Plugin
+public class DocumentationSensor implements Sensor
 {
 
     @Override
-    public void define(Context context)
+    public void describe(SensorDescriptor descriptor)
     {
-        context.addExtensions(
-                FMTemplate.class,
-                LuteceRulesDefinition.class,
-                LuteceProfilesDefinition.class,
-                FMTemplateSensor.class,
-                DocumentationSensor.class
-        );
+        descriptor
+                .name(LutecePluginConstants.DOC_SENSOR_NAME)
+                .onlyOnFileType(InputFile.Type.MAIN);
+    }
 
+    @Override
+    public void execute(SensorContext context)
+    {
+        DocumentationChecks checks = new DocumentationChecks(context);
+        checks.reportProjectIssues();
     }
 
 }

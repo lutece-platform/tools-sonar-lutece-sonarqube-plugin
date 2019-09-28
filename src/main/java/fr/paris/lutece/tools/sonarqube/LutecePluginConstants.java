@@ -49,6 +49,7 @@ public class LutecePluginConstants
     public static final String FMT_LANGUAGE_NAME = "Lutece Freemarker Template";
     public static final String FMT_RESOURCE_PATH = "org/sonar/l10n/lutece/rules/freemarker";
     public static final String FMT_WAY_PROFILE_PATH = FMT_RESOURCE_PATH + "/" + LUTECE_JSON_PROFILE;
+    public static final String FMT_SENSOR_NAME = "Lutece Template Sensor";
     
     public static final String XML_REPOSITORY_KEY = "lutece-xml";
     public static final String XML_REPOSITORY_NAME = "Lutece Repository";
@@ -56,6 +57,7 @@ public class LutecePluginConstants
     public static final String XML_LANGUAGE_NAME = "XML";
     public static final String XML_RESOURCE_PATH = "org/sonar/l10n/xml/rules/xml";
     public static final String XML_WAY_PROFILE_PATH = XML_RESOURCE_PATH + "/" + LUTECE_JSON_PROFILE;
+    public static final String DOC_SENSOR_NAME = "Lutece Documentation Sensor";
 
 
 }

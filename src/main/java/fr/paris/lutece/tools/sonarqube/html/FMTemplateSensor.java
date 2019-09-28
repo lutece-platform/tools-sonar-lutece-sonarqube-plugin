@@ -89,7 +89,7 @@ public final class FMTemplateSensor implements Sensor
     public void describe(SensorDescriptor descriptor)
     {
         descriptor
-                .name(LutecePluginConstants.FMT_LANGUAGE_KEY )
+                .name(LutecePluginConstants.FMT_SENSOR_NAME )
                 .onlyOnFileType(InputFile.Type.MAIN);
     }
 

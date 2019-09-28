@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.tools.sonarqube.docs;
 
+import fr.paris.lutece.tools.sonarqube.LutecePluginConstants;
 import fr.paris.lutece.tools.sonarqube.docs.checks.ReadmeFilePresentCheck;
 import java.io.File;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.sonar.api.batch.fs.InputComponent;
 import org.sonar.api.batch.sensor.SensorContext;
 import org.sonar.api.batch.sensor.issue.NewIssue;
 import org.sonar.api.batch.sensor.issue.NewIssueLocation;
@@ -79,24 +81,25 @@ public class DocumentationChecks
 
         if( !readmeFileFound )
         {
-            addIssue( ReadmeFilePresentCheck.RULE_KEY, "\"README.md\" file is missing" );
+            InputComponent inputDir = context.fileSystem().inputDir( fileRoot );
+            addIssue( ReadmeFilePresentCheck.RULE_KEY, "\"README.md\" file is missing" , inputDir );
         }
 
     }
 
-    protected void addIssue( String ruleKey, String message )
+    protected void addIssue( String ruleKey, String message, InputComponent inputComponent )
     {
         LOGGER.info( "Adding issue: " + ruleKey + " " + message );
-        NewIssue newIssue = context.newIssue().forRule( RuleKey.of( CheckList.REPOSITORY_KEY, ruleKey ) );
+        NewIssue newIssue = context.newIssue().forRule( RuleKey.of( LutecePluginConstants.XML_REPOSITORY_KEY , ruleKey ) );
 
         newIssue
-                .at( newLocation( newIssue, message ) ).save();
+                .at( newLocation( newIssue, message, inputComponent ) ).save();
 
     }
 
-    private static NewIssueLocation  newLocation( NewIssue issue, String message )
+    private static NewIssueLocation  newLocation( NewIssue issue, String message, InputComponent inputComponent )
     {
-        return issue.newLocation().message( message );
+        return issue.newLocation().on(inputComponent).message( message );
     }
 
 }
