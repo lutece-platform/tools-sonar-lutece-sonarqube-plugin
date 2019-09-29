@@ -98,15 +98,18 @@ public final class FMTemplateSensor implements Sensor
     {
 
         FileSystem fileSystem = sensorContext.fileSystem();
+       
 
         // configure page scanner and the visitors
         final HtmlAstScanner scanner = setupScanner(sensorContext);
+        
 
         FilePredicates predicates = fileSystem.predicates();
         Iterable<InputFile> inputFiles = fileSystem.inputFiles(
                 predicates.and(
                         predicates.hasType(InputFile.Type.MAIN),
-                        predicates.hasLanguages(LutecePluginConstants.FMT_LANGUAGE_KEY )
+                        predicates.hasLanguages(LutecePluginConstants.FMT_LANGUAGE_KEY ),
+                        predicates.matchesPathPattern( LutecePluginConstants.FMT_FILE_PATH_PATTERN )
                 ));
 
         for (InputFile inputFile : inputFiles)
