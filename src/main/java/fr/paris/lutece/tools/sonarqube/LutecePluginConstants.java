@@ -50,7 +50,7 @@ public class LutecePluginConstants
     public static final String FMT_RESOURCE_PATH = "org/sonar/l10n/lutece/rules/freemarker";
     public static final String FMT_WAY_PROFILE_PATH = FMT_RESOURCE_PATH + "/" + LUTECE_JSON_PROFILE;
     public static final String FMT_SENSOR_NAME = "Lutece Template Sensor";
-    public static final String FMT_FILE_PATH_PATTERN = "webapp/WEB-INF/templates/admin/*";
+    public static final String FMT_FILE_PATH_PATTERN = "webapp/WEB-INF/templates/admin/**/*";
     
     public static final String XML_REPOSITORY_KEY = "lutece-xml";
     public static final String XML_REPOSITORY_NAME = "Lutece Repository";
