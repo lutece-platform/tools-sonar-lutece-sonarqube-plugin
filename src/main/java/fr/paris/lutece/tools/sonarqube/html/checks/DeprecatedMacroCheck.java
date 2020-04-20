@@ -73,7 +73,8 @@ public class DeprecatedMacroCheck extends AbstractPageCheck
         "row_class",
         "coloredBg",
         "unstyledList",
-        "dropdownList ",
+        "dropdownList",
+				"listTabs",
     };
     
     
